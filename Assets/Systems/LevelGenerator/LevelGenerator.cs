@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GridTileType : byte
-{
-    Empty, Wall, Ladder, StairRight, StairLeft, LightSource
-}
-
 public class LevelGenerator 
 {
     GridTileType[,] grid;
@@ -60,8 +55,13 @@ public class LevelGenerator
     /// <returns></returns>
     public (int,int) WrapPos(int x, int y)
     {
-        return
-            (Mathf.Clamp(x % (settings.width + 1), 0, settings.width),
+        return (Mathf.Clamp(x % (settings.width + 1), 0, settings.width),
             Mathf.Clamp(y, 0, settings.height));
     }
 }
+
+public enum GridTileType : byte
+{
+    Empty, Wall, Ladder, StairRight, StairLeft, LightSource, GeneratorStartPoint, GeneratorEndPoint, Chest
+}
+

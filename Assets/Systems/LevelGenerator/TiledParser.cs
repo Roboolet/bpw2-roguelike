@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RoomCategory { Tutorial, Basic}
+
 public class TiledParser : MonoBehaviour
 {
     // Start is called before the first frame update

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameGrid : MonoBehaviour
-{    
-    public List<GridEntity> entities = new List<GridEntity>();
-    // This is info the generator needs to generate the level
-    // At the top will be a save-point room (or the top fo the tower)
+{
+    public GridEntity player;
+    [HideInInspector] public List<GridEntity> nonPlayerEntities = new List<GridEntity>();
+
+    // stores markers so you can't generate loot more than once from chests, and other one-time things
+    public HashSet<(int, int)> singleUseMarker = new HashSet<(int, int)>();
     public LevelSettings levelSettings;
 
     LevelGenerator levelGenerator;
