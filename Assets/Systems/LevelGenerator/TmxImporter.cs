@@ -33,6 +33,8 @@ namespace TmxImporter
                 level.height = map.Height;
                 // turn the comma-seperated csv into a byte array, and then into the byte matrix of the scriptableobject
                 byte[] numbers = Array.ConvertAll(map.Layer.Data.Text.Split(','), byte.Parse);
+
+                level.data = new byte[level.width, level.height];
                 // using sizeof for if i ever decide to use a short instead
                 Buffer.BlockCopy(numbers, 0, level.data, 0, numbers.Length * sizeof(byte));
 
@@ -85,11 +87,4 @@ namespace TmxImporter
 }
 #endif
 
-[System.Serializable]
-public class LevelData : ScriptableObject
-{
-    public int width;
-    public int height;
-    public byte[,] data;
-}
 
