@@ -152,8 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c513d04b018bb0d40ae0edb3667408f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entities: []
-  levelSettings: {fileID: 0}
+  player: {fileID: 0}
+  nonPlayerEntities: []
+  levelSettings: {fileID: 11400000, guid: 6b2c11bf9a7567742b24c760fdd98526, type: 2}
 --- !u!4 &116316406
 Transform:
   m_ObjectHideFlags: 0

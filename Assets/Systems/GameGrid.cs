@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameGrid : MonoBehaviour
 {
-    public GridEntity player;
+    [HideInInspector] public GridEntity player;
     [HideInInspector] public List<GridEntity> nonPlayerEntities = new List<GridEntity>();
 
     // stores markers so you can't generate loot more than once from chests, and other one-time things
