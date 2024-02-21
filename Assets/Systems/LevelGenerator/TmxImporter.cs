@@ -34,9 +34,10 @@ namespace TmxImporter
                 // turn the comma-seperated csv into a byte array, and then into the byte matrix of the scriptableobject
                 byte[] numbers = Array.ConvertAll(map.Layer.Data.Text.Split(','), byte.Parse);
 
-                level.data = new byte[level.width, level.height];
+                byte[,] numMatrix = new byte[level.width, level.height];
                 // using sizeof for if i ever decide to use a short instead
                 Buffer.BlockCopy(numbers, 0, level.data, 0, numbers.Length * sizeof(byte));
+                Debug.Log("Matrix data: " + level.data);
 
                 // finalize
                 EditorUtility.SetDirty(this);

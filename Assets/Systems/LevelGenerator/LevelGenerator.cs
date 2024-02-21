@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class LevelGenerator 
 {
-    GridTileType[,] grid;
-
     LevelSettings settings;
 
-    public LevelGenerator()
-    {
-    }
+    GridTileType[,] grid;
+
+    Vector2Int lastConnPoint;
 
     public void GenerateWorld(LevelSettings settings)
     {
@@ -22,17 +20,56 @@ public class LevelGenerator
 
         this.settings = settings;
         grid = new GridTileType[settings.width, settings.height];
+
+        for(int i = 0; i < 10; i++)
+        {
+            SpawnRoom(GetRandomRoom());
+        }
     }
 
-    /// <summary>
-    /// Places a specific tile at the position. Use ID 0 to remove.
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public void Place(GridTileType id, int x, int y)
+
+    void SpawnRoom(LevelData roomData)
     {
+        int xOffset = 0;
+
+        // find the entry point tile first
+        for (int x = 0; x < roomData.width; x++)
+        {
+            if ((roomData.data[x, roomData.height - 1] == GridTileType.GeneratorStartPoint))
+            {
+                // xoffset is negative, since it needs a nudge to the left
+                xOffset = -x;
+                break;
+            }
+        }
+
+        Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xOffset, lastConnPoint.y + 1);
+
+        // tiled maps go from left to right, top to bottom, but i need to draw them left to right, bottom to top
+        for (int x = 0; x < roomData.width; x++)
+        {
+            for (int y = roomData.height-1; y > 0; y--)
+            {
+                GridTileType tileType = roomData.data[x, y];
+                Set(tileType, zeroPos.x + x, zeroPos.y + y);                
+            }
+        }
+
+        // find the exit point tile and set the connpoint for next iteration
+        for (int x = 0; x < roomData.width; x++)
+        {
+            if ((roomData.data[x, 0] == GridTileType.GeneratorEndPoint))
+            {
+                lastConnPoint = lastConnPoint + new Vector2Int(x, roomData.height);
+                break;
+            }
+        }
+    }
+
+    LevelData GetRandomRoom()
+    {
+        int rnd = Random.Range(0, settings.rooms.Length);
+        return settings.rooms[rnd];
     }
 
     /// <summary>
@@ -42,9 +79,22 @@ public class LevelGenerator
     /// <param name="y"></param>
     public GridTileType Get(int x, int y)
     {
-        (int, int) pos = WrapPos(x, y);
+        Vector2Int pos = WrapPos(x, y);
 
-        return grid[pos.Item1, pos.Item2];
+        return grid[pos.x, pos.y];
+    }
+
+    /// <summary>
+    /// Places a specific tile at the position. Use ID 0 to remove.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    public void Set(GridTileType id, int x, int y)
+    {
+        Vector2Int truePos = WrapPos(x, y);
+
     }
 
     /// <summary>
@@ -53,9 +103,9 @@ public class LevelGenerator
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public (int,int) WrapPos(int x, int y)
+    Vector2Int WrapPos(int x, int y)
     {
-        return (Mathf.Clamp(x % (settings.width + 1), 0, settings.width),
+        return new Vector2Int(Mathf.Clamp(x % (settings.width + 1), 0, settings.width),
             Mathf.Clamp(y, 0, settings.height));
     }
 }

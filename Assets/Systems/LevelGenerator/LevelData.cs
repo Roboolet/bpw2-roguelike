@@ -7,5 +7,5 @@ public class LevelData : ScriptableObject
 {
     public int width;
     public int height;
-    public byte[,] data;
+    public GridTileType[,] data;
 }
