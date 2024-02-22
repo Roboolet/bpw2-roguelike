@@ -30,15 +30,16 @@ public class LevelGenerator
 
     void SpawnRoom(LevelData roomData)
     {
+        if (roomData == null) return;
         int xOffset = 0;
 
         // find the entry point tile first
-        for (int x = 0; x < roomData.width; x++)
+        for (int i = 0; i < roomData.data.Length; i++)
         {
-            if ((roomData.data[x, roomData.height - 1] == GridTileType.GeneratorStartPoint))
+            if ((roomData.data[i] == GridTileType.GeneratorStartPoint))
             {
                 // xoffset is negative, since it needs a nudge to the left
-                xOffset = -x;
+                xOffset = -i;
                 break;
             }
         }
@@ -46,21 +47,18 @@ public class LevelGenerator
         Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xOffset, lastConnPoint.y + 1);
 
         // tiled maps go from left to right, top to bottom, but i need to draw them left to right, bottom to top
-        for (int x = 0; x < roomData.width; x++)
+        for (int i = 0; i < roomData.width; i++)
         {
-            for (int y = roomData.height-1; y > 0; y--)
-            {
-                GridTileType tileType = roomData.data[x, y];
-                Set(tileType, zeroPos.x + x, zeroPos.y + y);                
-            }
+            GridTileType tileType = roomData.data[i];
+            Set(tileType, zeroPos.x + i % roomData.width, zeroPos.y + Mathf.FloorToInt(i / roomData.width));
         }
 
         // find the exit point tile and set the connpoint for next iteration
-        for (int x = 0; x < roomData.width; x++)
+        for (int i = 0; i < roomData.data.Length; i++)
         {
-            if ((roomData.data[x, 0] == GridTileType.GeneratorEndPoint))
+            if ((roomData.data[i] == GridTileType.GeneratorEndPoint))
             {
-                lastConnPoint = lastConnPoint + new Vector2Int(x, roomData.height);
+                lastConnPoint = lastConnPoint + new Vector2Int(i, roomData.height);
                 break;
             }
         }
@@ -68,7 +66,7 @@ public class LevelGenerator
 
     LevelData GetRandomRoom()
     {
-        int rnd = Random.Range(0, settings.rooms.Length);
+        int rnd = Random.Range(0, settings.rooms.Length-1);
         return settings.rooms[rnd];
     }
 

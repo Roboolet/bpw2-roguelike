@@ -31,13 +31,14 @@ namespace TmxImporter
 
                 level.width = map.Width;
                 level.height = map.Height;
-                // turn the comma-seperated csv into a byte array, and then into the byte matrix of the scriptableobject
+                // turn the comma-seperated csv into a byte array, and then into a
                 byte[] numbers = Array.ConvertAll(map.Layer.Data.Text.Split(','), byte.Parse);
 
-                byte[,] numMatrix = new byte[level.width, level.height];
-                // using sizeof for if i ever decide to use a short instead
-                Buffer.BlockCopy(numbers, 0, level.data, 0, numbers.Length * sizeof(byte));
-                Debug.Log("Matrix data: " + level.data);
+                level.data = new GridTileType[level.width*level.height];
+                for(int i = 0; i < numbers.Length; i++)
+                {
+                    level.data[i] = (GridTileType)numbers[i];
+                }                
 
                 // finalize
                 EditorUtility.SetDirty(this);

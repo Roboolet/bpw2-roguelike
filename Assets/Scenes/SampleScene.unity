@@ -155,6 +155,7 @@ MonoBehaviour:
   player: {fileID: 0}
   nonPlayerEntities: []
   levelSettings: {fileID: 11400000, guid: 6b2c11bf9a7567742b24c760fdd98526, type: 2}
+  visibleTilesOnScreen: {x: 16, y: 8}
 --- !u!4 &116316406
 Transform:
   m_ObjectHideFlags: 0
