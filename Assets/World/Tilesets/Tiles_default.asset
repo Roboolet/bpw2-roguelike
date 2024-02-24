@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: Tiles_default
   m_EditorClassIdentifier: 
   t_wall:
-  - {fileID: -1963741338, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
-  - {fileID: 1596373458, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
-  - {fileID: 1332407707, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
-  - {fileID: 325344406, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
+  - {fileID: -1100703681, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
+  - {fileID: -1622798223, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
+  - {fileID: 323815234, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
+  - {fileID: 2052929891, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
+  t_ladder:
+  - {fileID: -1534294655, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
+  t_stairRight:
+  - {fileID: 47484, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
+  t_stairLeft:
+  - {fileID: 1073778762, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
+  t_light:
+  - {fileID: 1022199726, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}

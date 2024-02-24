@@ -156,7 +156,7 @@ MonoBehaviour:
   entities: []
   levelSettings: {fileID: 11400000, guid: 6b2c11bf9a7567742b24c760fdd98526, type: 2}
   tilePixelPerUnit: 32
-  visibleTilesOnScreen: {x: 17, y: 17}
+  visibleTilesOnScreen: {x: 18, y: 18}
 --- !u!4 &116316406
 Transform:
   m_ObjectHideFlags: 0

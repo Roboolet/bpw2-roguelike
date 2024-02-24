@@ -39,7 +39,7 @@ public class LevelGenerator
             if ((roomData.data[i] == GridTileType.GeneratorStartPoint))
             {
                 // xoffset is negative, since it needs a nudge to the left
-                xOffset = -i;
+                xOffset = lastConnPoint.x - i;
                 break;
             }
         }
