@@ -12,7 +12,6 @@ public class GameGrid : MonoBehaviour
     public HashSet<(int, int)> singleUseMarker = new HashSet<(int, int)>();
     public LevelSettings levelSettings;
 
-    public int tilePixelPerUnit = 32;
     public Vector2Int visibleTilesOnScreen;
 
     Vector2Int _GridCameraPosition;
@@ -60,8 +59,8 @@ public class GameGrid : MonoBehaviour
     void GenerateSpriteGrid()
     {
         spriteGrid = new SpriteRenderer[visibleTilesOnScreen.x, visibleTilesOnScreen.y];
-        float wStep = Screen.width / tilePixelPerUnit * 2;
-        float hStep = Screen.height / tilePixelPerUnit * 2;
+        int halfY = visibleTilesOnScreen.y / 2;
+        int halfX = visibleTilesOnScreen.x / 2;
 
         for(int y = 0; y <  visibleTilesOnScreen.y; y++)
         {
@@ -69,10 +68,7 @@ public class GameGrid : MonoBehaviour
             {
                 GameObject tileSprite = new GameObject($"TileSprite x{x} y{y}", typeof(SpriteRenderer));
                 tileSprite.transform.parent = transform;
-                Vector2 newPos = new Vector2(x * wStep, y * hStep);
-                Vector3 worldPos = mainCamera.ScreenToWorldPoint(newPos);
-                worldPos.z = 0;
-                tileSprite.transform.position = worldPos;
+                tileSprite.transform.position = new Vector2(x - halfX, y - halfY);
 
                 SpriteRenderer spr = tileSprite.GetComponent<SpriteRenderer>();
                 spriteGrid[x, y] = spr;
