@@ -152,10 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c513d04b018bb0d40ae0edb3667408f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  nonPlayerEntities: []
+  debugMode: 1
+  entities: []
   levelSettings: {fileID: 11400000, guid: 6b2c11bf9a7567742b24c760fdd98526, type: 2}
-  visibleTilesOnScreen: {x: 16, y: 8}
+  tilePixelPerUnit: 32
+  visibleTilesOnScreen: {x: 17, y: 17}
 --- !u!4 &116316406
 Transform:
   m_ObjectHideFlags: 0

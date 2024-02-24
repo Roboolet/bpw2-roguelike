@@ -5,16 +5,30 @@ using UnityEngine;
 
 public class GameGrid : MonoBehaviour
 {
-    [HideInInspector] public GridEntity player;
-    [HideInInspector] public List<GridEntity> nonPlayerEntities = new List<GridEntity>();
-    LevelGenerator levelGenerator;
+    public bool debugMode;
+    [HideInInspector] public List<GridEntity> entities = new List<GridEntity>();
 
     // stores markers so you can't generate loot more than once from chests, and other one-time things
     public HashSet<(int, int)> singleUseMarker = new HashSet<(int, int)>();
     public LevelSettings levelSettings;
+
+    public int tilePixelPerUnit = 32;
     public Vector2Int visibleTilesOnScreen;
 
+    Vector2Int _GridCameraPosition;
+    public Vector2Int GridCameraPosition
+    {
+        get { return _GridCameraPosition; }
+        set
+        {
+            _GridCameraPosition = value;
+            DrawTiles();
+        }
+    }
+
+    SpriteRenderer[,] spriteGrid;
     Camera mainCamera;
+    LevelGenerator levelGenerator;
 
     public static GameGrid main;
     private void Awake()
@@ -22,11 +36,22 @@ public class GameGrid : MonoBehaviour
         main = this;
 
         mainCamera = Camera.main;
-        GenerateSpriteGrid();
 
         levelGenerator = new LevelGenerator();
         levelGenerator.GenerateWorld(levelSettings);
 
+        GenerateSpriteGrid();
+        GridCameraPosition = Vector2Int.zero;
+    }
+
+    private void Update()
+    {
+        if (!debugMode) return;
+
+        if(Input.GetKeyDown(KeyCode.W)) { GridCameraPosition -= Vector2Int.up; }
+        if (Input.GetKeyDown(KeyCode.A)) { GridCameraPosition -= Vector2Int.left; }
+        if (Input.GetKeyDown(KeyCode.S)) { GridCameraPosition -= Vector2Int.down; }
+        if (Input.GetKeyDown(KeyCode.D)) { GridCameraPosition -= Vector2Int.right; }
     }
 
     /// <summary>
@@ -34,30 +59,51 @@ public class GameGrid : MonoBehaviour
     /// </summary>
     void GenerateSpriteGrid()
     {
+        spriteGrid = new SpriteRenderer[visibleTilesOnScreen.x, visibleTilesOnScreen.y];
+        float wStep = Screen.width / tilePixelPerUnit * 2;
+        float hStep = Screen.height / tilePixelPerUnit * 2;
+
         for(int y = 0; y <  visibleTilesOnScreen.y; y++)
         {
             for(int x = 0; x < visibleTilesOnScreen.x; x++)
             {
                 GameObject tileSprite = new GameObject($"TileSprite x{x} y{y}", typeof(SpriteRenderer));
                 tileSprite.transform.parent = transform;
-                Vector2 newPos = new Vector2((Screen.width / visibleTilesOnScreen.x) * x, (Screen.height / visibleTilesOnScreen.y) * y);
-                tileSprite.transform.position = mainCamera.ScreenToWorldPoint(newPos);
+                Vector2 newPos = new Vector2(x * wStep, y * hStep);
+                Vector3 worldPos = mainCamera.ScreenToWorldPoint(newPos);
+                worldPos.z = 0;
+                tileSprite.transform.position = worldPos;
+
+                SpriteRenderer spr = tileSprite.GetComponent<SpriteRenderer>();
+                spriteGrid[x, y] = spr;
 
                 // set sprite for testing
-                tileSprite.GetComponent<SpriteRenderer>().sprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0,0,1,1), Vector2.zero);
-
-                tileSprite.transform.localScale = new Vector2(Screen.width / visibleTilesOnScreen.x / 1.5f, Screen.height / visibleTilesOnScreen.y / 1.5f);
+                //spr.sprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0,0,1,1), Vector2.zero);
+                //tileSprite.transform.localScale = new Vector2(Screen.width / visibleTilesOnScreen.x / 1.5f, Screen.height / visibleTilesOnScreen.y / 1.5f);
             }
         }
     }
 
     /// <summary>
-    /// Redraw all tiles in view. Happens whenever the player position changes. Width and height extend one tile further to make animations smoother
+    /// Redraw all tiles in view. Happens whenever the player position changes.
     /// </summary>
     public void DrawTiles()
     {
         // use random noise based on position to make tiles distinct from one another
+        int halfX = visibleTilesOnScreen.x / 2;
+        int halfY = visibleTilesOnScreen.y / 2;
+        for (int x = -halfX; x < halfX; x++)
+        {
+            for (int y = -halfY; y < halfY; y++)
+            {
+                Vector2Int worldPos = new Vector2Int(x + GridCameraPosition.x, y + GridCameraPosition.y);
+                Vector2Int screenPos = new Vector2Int(x + halfX, y + halfY);
 
+                GridTileType tileType = levelGenerator.Get(worldPos);
+                Sprite sprite = levelSettings.tileset.GetSpriteByTileType(tileType, worldPos.x, worldPos.y);
+                spriteGrid[screenPos.x, screenPos.y].sprite = sprite;
+            }
+        }
     }
 
     /// <summary>

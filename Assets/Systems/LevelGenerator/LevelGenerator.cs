@@ -47,7 +47,7 @@ public class LevelGenerator
         Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xOffset, lastConnPoint.y + 1);
 
         // tiled maps go from left to right, top to bottom, but i need to draw them left to right, bottom to top
-        for (int i = 0; i < roomData.width; i++)
+        for (int i = 0; i < roomData.width*roomData.height; i++)
         {
             GridTileType tileType = roomData.data[i];
             Set(tileType, zeroPos.x + i % roomData.width, zeroPos.y + Mathf.FloorToInt(i / roomData.width));
@@ -70,6 +70,7 @@ public class LevelGenerator
         return settings.rooms[rnd];
     }
 
+    public GridTileType Get (Vector2Int pos) => Get(pos.x, pos.y);
     /// <summary>
     /// Returns the tile at this position
     /// </summary>
@@ -93,6 +94,7 @@ public class LevelGenerator
     {
         Vector2Int truePos = WrapPos(x, y);
 
+        grid[truePos.x, truePos.y] = id;
     }
 
     /// <summary>
@@ -103,7 +105,7 @@ public class LevelGenerator
     /// <returns></returns>
     Vector2Int WrapPos(int x, int y)
     {
-        return new Vector2Int(Mathf.Clamp(x % (settings.width + 1), 0, settings.width),
+        return new Vector2Int(Mathf.Clamp(x % (settings.width), 0, settings.width),
             Mathf.Clamp(y, 0, settings.height));
     }
 }
