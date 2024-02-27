@@ -88,12 +88,12 @@ public class GameGrid : MonoBehaviour
         // use random noise based on position to make tiles distinct from one another
         int halfX = visibleTilesOnScreen.x / 2;
         int halfY = visibleTilesOnScreen.y / 2;
-        for (int x = -halfX; x < halfX; x++)
+        for (int x = 0; x < visibleTilesOnScreen.x; x++)
         {
-            for (int y = -halfY; y < halfY; y++)
+            for (int y = 0; y < visibleTilesOnScreen.y; y++)
             {
-                Vector2Int worldPos = new Vector2Int(x + GridCameraPosition.x, y + GridCameraPosition.y);
-                Vector2Int screenPos = new Vector2Int(x + halfX, y + halfY);
+                Vector2Int worldPos = new Vector2Int(x - GridCameraPosition.x - halfX, y - GridCameraPosition.y - halfY);
+                Vector2Int screenPos = new Vector2Int(x, y);
 
                 GridTileType tileType = levelGenerator.Get(worldPos);
                 Sprite sprite = levelSettings.tileset.GetSpriteByTileType(tileType, worldPos.x, worldPos.y);

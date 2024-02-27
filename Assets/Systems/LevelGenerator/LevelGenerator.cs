@@ -39,18 +39,17 @@ public class LevelGenerator
             if ((roomData.data[i] == GridTileType.GeneratorStartPoint))
             {
                 // xoffset is negative, since it needs a nudge to the left
-                xOffset = lastConnPoint.x - i;
+                xOffset = -i;
                 break;
             }
         }
 
         Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xOffset, lastConnPoint.y + 1);
 
-        // tiled maps go from left to right, top to bottom, but i need to draw them left to right, bottom to top
         for (int i = 0; i < roomData.width*roomData.height; i++)
         {
             GridTileType tileType = roomData.data[i];
-            Set(tileType, zeroPos.x + i % roomData.width, zeroPos.y + Mathf.FloorToInt(i / roomData.width));
+            Set(tileType, zeroPos.x + i % roomData.width, settings.height - zeroPos.y - Mathf.FloorToInt(i / roomData.width));
         }
 
         // find the exit point tile and set the connpoint for next iteration
@@ -105,7 +104,9 @@ public class LevelGenerator
     /// <returns></returns>
     Vector2Int WrapPos(int x, int y)
     {
-        return new Vector2Int(Mathf.Clamp(x % (settings.width), 0, settings.width),
+        // just a single modulus doesn't account for numbers below 0, so without this it would cause maps to infinitely repeat to the left
+        int xWrapped = ((x % settings.width) + settings.width) % settings.width;
+        return new Vector2Int(xWrapped,
             Mathf.Clamp(y, 0, settings.height));
     }
 }
