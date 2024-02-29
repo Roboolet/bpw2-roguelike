@@ -45,12 +45,14 @@ public class LevelGenerator
             }
         }
 
-        Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xOffset, lastConnPoint.y - 1);
-
-        for (int i = 0; i < roomData.width*roomData.height; i++)
+        Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xOffset, lastConnPoint.y + 1);
+        int totalRoomSize = roomData.width * roomData.height;
+        for (int i = 0; i < totalRoomSize; i++)
         {
             GridTileType tileType = roomData.data[i];
-            Set(tileType, zeroPos.x + (i % roomData.width), zeroPos.y - Mathf.FloorToInt(i / roomData.width));
+            int x = zeroPos.x + (i % roomData.width);
+            int y = zeroPos.y + roomData.height - Mathf.FloorToInt(i / roomData.width);
+            Set(tileType, x, y);
         }
 
         // find the exit point tile and set the connpoint for next iteration
@@ -64,6 +66,7 @@ public class LevelGenerator
         }
 
         Debug.Log($"zeroPos:[{zeroPos}] lastConn:[{lastConnPoint}]");
+
     }
 
     LevelData GetRandomRoom()
