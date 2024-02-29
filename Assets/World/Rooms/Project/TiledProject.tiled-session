@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic1.tmx",
+    "activeFile": "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic2.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -13,8 +13,16 @@
             "scale": 5.945416666666667,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 120.68119700049057,
-                "y": 65.00805942953257
+                "x": 108.4028313126358,
+                "y": 21.44509075618474
+            }
+        },
+        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic2.tmx": {
+            "scale": 5.945416666666667,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.00840983951223,
+                "y": 40.114934473333804
             }
         },
         "RoomShaper.tsx": {
@@ -32,18 +40,20 @@
     },
     "last.imagePath": "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/Systems/LevelGenerator",
     "map.fixedSize": true,
-    "map.height": 16,
+    "map.height": 10,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
     "map.tileWidth": 8,
     "openFiles": [
         "RoomShaper.tsx",
-        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic1.tmx"
+        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic1.tmx",
+        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic2.tmx"
     ],
     "project": "TiledProject.tiled-project",
     "recentFiles": [
         "RoomShaper.tsx",
         "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic1.tmx",
+        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic2.tmx",
         "basic1.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",

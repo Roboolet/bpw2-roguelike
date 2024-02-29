@@ -9,6 +9,7 @@ public class LevelGenerator
     GridTileType[,] grid;
 
     Vector2Int lastConnPoint;
+    int lastRoomIndex;
 
     public void GenerateWorld(LevelSettings settings)
     {
@@ -39,17 +40,17 @@ public class LevelGenerator
             if ((roomData.data[i] == GridTileType.GeneratorStartPoint))
             {
                 // xoffset is negative, since it needs a nudge to the left
-                xOffset = -i;
+                xOffset = -(i % roomData.width);
                 break;
             }
         }
 
-        Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xOffset, lastConnPoint.y + 1);
+        Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xOffset, lastConnPoint.y - 1);
 
         for (int i = 0; i < roomData.width*roomData.height; i++)
         {
             GridTileType tileType = roomData.data[i];
-            Set(tileType, zeroPos.x + i % roomData.width, settings.height - zeroPos.y - Mathf.FloorToInt(i / roomData.width));
+            Set(tileType, zeroPos.x + (i % roomData.width), zeroPos.y - Mathf.FloorToInt(i / roomData.width));
         }
 
         // find the exit point tile and set the connpoint for next iteration
@@ -61,11 +62,19 @@ public class LevelGenerator
                 break;
             }
         }
+
+        Debug.Log($"zeroPos:[{zeroPos}] lastConn:[{lastConnPoint}]");
     }
 
     LevelData GetRandomRoom()
     {
-        int rnd = Random.Range(0, settings.rooms.Length-1);
+        int rnd = 0;
+        while(settings.rooms.Length > 1 && rnd == lastRoomIndex)
+        {
+            rnd = Random.Range(0, settings.rooms.Length);
+        }
+
+        lastRoomIndex = rnd;
         return settings.rooms[rnd];
     }
 
