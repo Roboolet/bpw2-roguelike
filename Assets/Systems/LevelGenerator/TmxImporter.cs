@@ -32,7 +32,7 @@ namespace TmxImporter
                 level.width = map.Width;
                 level.height = map.Height;
                 // turn the comma-seperated csv into a byte array, and then into a
-                byte[] numbers = Array.ConvertAll(map.Layer.Data.Text.Split(','), byte.Parse);
+                int[] numbers = Array.ConvertAll(map.Layer.Data.Text.Split(','), int.Parse);
 
                 level.data = new GridTileType[level.width*level.height];
                 for(int i = 0; i < numbers.Length; i++)
