@@ -32,22 +32,22 @@ public class LevelGenerator
     void SpawnRoom(LevelData roomData)
     {
         if (roomData == null) return;
-        int xOffset = 0;
+        int xStartPos = 0;
 
         // find the entry point tile first
         for (int i = 0; i < roomData.data.Length; i++)
         {
             if ((roomData.data[i] == GridTileType.GeneratorStartPoint))
             {
-                // xoffset is negative, since it needs a nudge to the left
-                xOffset = -(i % roomData.width);
+                xStartPos = i % roomData.width;
                 break;
             }
         }
 
-        Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xOffset, lastConnPoint.y + 1);
-        int totalRoomSize = roomData.width * roomData.height;
-        for (int i = 0; i < totalRoomSize; i++)
+        Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xStartPos, lastConnPoint.y + 1);
+        Debug.Log($"xStartPos {xStartPos}, lastConnPoint.x {lastConnPoint.x}, zeroPos.x {zeroPos.x}");
+        int totalRoomArea = roomData.width * roomData.height;
+        for (int i = 0; i < totalRoomArea; i++)
         {
             GridTileType tileType = roomData.data[i];
             int x = zeroPos.x + (i % roomData.width);
@@ -60,12 +60,10 @@ public class LevelGenerator
         {
             if ((roomData.data[i] == GridTileType.GeneratorEndPoint))
             {
-                lastConnPoint = lastConnPoint + new Vector2Int(i, roomData.height);
+                lastConnPoint = new Vector2Int(i % roomData.width + zeroPos.x, roomData.height + lastConnPoint.y);
                 break;
             }
         }
-
-        Debug.Log($"zeroPos:[{zeroPos}] lastConn:[{lastConnPoint}]");
 
     }
 
@@ -119,7 +117,7 @@ public class LevelGenerator
         // just a single modulus doesn't account for numbers below 0, so without this it would cause maps to infinitely repeat to the left
         int xWrapped = ((x % settings.width) + settings.width) % settings.width;
         return new Vector2Int(xWrapped,
-            Mathf.Clamp(y, 0, settings.height));
+            Mathf.Clamp(y, 0, settings.height-1));
     }
 }
 

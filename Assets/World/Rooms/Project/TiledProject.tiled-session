@@ -13,16 +13,24 @@
             "scale": 5.945416666666667,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 108.4028313126358,
-                "y": 21.44509075618474
+                "x": 121.18578737122435,
+                "y": 62.148713995374585
             }
         },
         "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic2.tmx": {
             "scale": 5.945416666666667,
             "selectedLayer": 0,
             "viewCenter": {
+                "x": 119.84021304926766,
+                "y": 39.94673768308921
+            }
+        },
+        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic3.tmx": {
+            "scale": 5.945416666666667,
+            "selectedLayer": 0,
+            "viewCenter": {
                 "x": 120.00840983951223,
-                "y": 40.114934473333804
+                "y": 64.16707547830961
             }
         },
         "RoomShaper.tsx": {
@@ -40,7 +48,7 @@
     },
     "last.imagePath": "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/Systems/LevelGenerator",
     "map.fixedSize": true,
-    "map.height": 10,
+    "map.height": 16,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
     "map.tileWidth": 8,
