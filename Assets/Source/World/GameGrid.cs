@@ -29,13 +29,8 @@ public class GameGrid : MonoBehaviour
     Camera mainCamera;
     LevelGenerator levelGenerator;
 
-    public static GameGrid main;
     private void Awake()
     {
-        main = this;
-
-        mainCamera = Camera.main;
-
         levelGenerator = new LevelGenerator();
         levelGenerator.GenerateWorld(levelSettings);
 
