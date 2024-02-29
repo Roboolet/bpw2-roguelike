@@ -29,8 +29,8 @@
             "scale": 5.945416666666667,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 119.84021304926765,
-                "y": 64.16707547830961
+                "x": 104.02971476627654,
+                "y": 21.44509075618474
             }
         },
         "RoomShaper.tsx": {
@@ -48,7 +48,7 @@
     },
     "last.imagePath": "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/Systems/LevelGenerator",
     "map.fixedSize": true,
-    "map.height": 16,
+    "map.height": 25,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
     "map.tileWidth": 8,

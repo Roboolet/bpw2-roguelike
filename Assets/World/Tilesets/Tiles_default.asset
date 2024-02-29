@@ -25,3 +25,5 @@ MonoBehaviour:
   - {fileID: 47484, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
   t_light:
   - {fileID: 1022199726, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
+  t_chest:
+  - {fileID: 578968108, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
