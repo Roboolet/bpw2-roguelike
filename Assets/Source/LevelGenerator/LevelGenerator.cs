@@ -87,7 +87,7 @@ public class LevelGenerator
     /// <param name="y"></param>
     public GridTileType Get(int x, int y)
     {
-        Vector2Int pos = WrapPos(x, y);
+        Vector2Int pos = settings.WrapPos(x, y);
 
         return grid[pos.x, pos.y];
     }
@@ -101,24 +101,12 @@ public class LevelGenerator
     /// <returns></returns>
     public void Set(GridTileType id, int x, int y)
     {
-        Vector2Int truePos = WrapPos(x, y);
+        Vector2Int truePos = settings.WrapPos(x, y);
 
         grid[truePos.x, truePos.y] = id;
     }
 
-    /// <summary>
-    /// Wraps and corrects a given 2D point to a valid one for this level
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    Vector2Int WrapPos(int x, int y)
-    {
-        // just a single modulus doesn't account for numbers below 0, so without this it would cause maps to infinitely repeat to the left
-        int xWrapped = ((x % settings.width) + settings.width) % settings.width;
-        return new Vector2Int(xWrapped,
-            Mathf.Clamp(y, 0, settings.height-1));
-    }
+    
 }
 
 public enum GridTileType : byte
