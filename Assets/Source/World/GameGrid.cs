@@ -6,7 +6,6 @@ using UnityEngine;
 public class GameGrid : MonoBehaviour
 {
     public bool debugMode;
-    [HideInInspector] public List<GridEntity> entities = new List<GridEntity>();
 
     // stores markers so you can't generate loot more than once from chests, and other one-time things
     public HashSet<(int, int)> singleUseMarker = new HashSet<(int, int)>();
