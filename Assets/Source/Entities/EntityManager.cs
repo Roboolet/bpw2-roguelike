@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class EntityManager : MonoBehaviour
 {
-    [HideInInspector] public List<GridEntity> entities = new List<GridEntity>();
+    public List<GridEntity> entities = new List<GridEntity>();
     Dictionary<GridEntity, TurnAction> activeTurnActions = new Dictionary<GridEntity, TurnAction>();
     int currentTurn;
 
     public void EndTurn()
     {
-        currentTurn++;
         SortedList<int, TurnAction> actionsThisTurn = new SortedList<int, TurnAction>();
 
         // get all active actions
@@ -67,6 +66,8 @@ public class EntityManager : MonoBehaviour
             {
                 activeTurnActions.Remove(action.caster);
             }
+
+            currentTurn++;
         }
 
         // generate new actions if possible

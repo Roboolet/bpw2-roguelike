@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridEntity : MonoBehaviour
+public abstract class GridEntity : MonoBehaviour
 {
     public Vector2Int gridPosition;
     public int health;
 
-    public virtual TurnAction EvaluateNextAction(int turnNumber)
-    {
-        return TurnAction.CreateIdleAction(this, turnNumber + 1);
-    }
+
+    public abstract TurnAction EvaluateNextAction(int turnNumber);
+
+    public abstract void OnDeath();
     
 }
 
@@ -50,3 +50,4 @@ public enum TurnActionType
 {
     Idle, Move, Attack
 }
+
