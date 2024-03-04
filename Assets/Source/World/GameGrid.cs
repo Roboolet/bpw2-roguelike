@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using System;
 
 public class GameGrid : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class GameGrid : MonoBehaviour
     public LevelSettings levelSettings;
 
     public Vector2Int visibleTilesOnScreen;
+    public Action OnCameraUpdated;
 
     Vector2Int _GridCameraPosition;
     public Vector2Int GridCameraPosition
@@ -20,7 +22,7 @@ public class GameGrid : MonoBehaviour
         set
         {
             _GridCameraPosition = value;
-            DrawTiles();
+            OnCameraUpdated?.Invoke();
         }
     }
 
@@ -35,6 +37,8 @@ public class GameGrid : MonoBehaviour
 
         GenerateSpriteGrid();
         GridCameraPosition = Vector2Int.zero;
+
+        OnCameraUpdated += DrawTiles;
     }
 
     private void Update()
@@ -82,7 +86,7 @@ public class GameGrid : MonoBehaviour
     /// <returns></returns>
     public SpriteRenderer GetSpriteGridElement(Vector2Int gridPosition)
     {
-        Vector2Int pos = levelSettings.WrapPos(gridPosition.x - GridCameraPosition.x, gridPosition.y - GridCameraPosition.y);
+        Vector2Int pos = levelSettings.WrapPos(gridPosition.x + GridCameraPosition.x, gridPosition.y + GridCameraPosition.y);
         return spriteGrid[pos.x, pos.y];
     }
 

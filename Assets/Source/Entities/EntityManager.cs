@@ -9,6 +9,11 @@ public class EntityManager : MonoBehaviour
     Dictionary<GridEntity, TurnAction> activeTurnActions = new Dictionary<GridEntity, TurnAction>();
     int currentTurn;
 
+    private void Awake()
+    {
+        gameGrid.OnCameraUpdated += DrawEntities;
+    }
+
     public void EndTurn()
     {
         SortedList<int, TurnAction> actionsThisTurn = new SortedList<int, TurnAction>();
@@ -83,6 +88,8 @@ public class EntityManager : MonoBehaviour
                 activeTurnActions.Add(e, e.EvaluateNextAction(currentTurn));
             }
         }
+
+        DrawEntities();
     }
 
     /// <summary>
@@ -90,7 +97,13 @@ public class EntityManager : MonoBehaviour
     /// </summary>
     public void DrawEntities()
     {
+        for(int i = 0; i < entities.Count; i++)
+        {
+            GridEntity entity = entities[i];
+            Vector2 screenPos = gameGrid.GetSpriteGridElement(entity.gridPosition).transform.position;
 
+            entity.transform.position = screenPos;
+        }
     }
 
 }
