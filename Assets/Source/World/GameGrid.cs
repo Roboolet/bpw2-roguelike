@@ -47,6 +47,7 @@ public class GameGrid : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D)) { GridCameraPosition -= Vector2Int.right; }
     }
 
+
     /// <summary>
     /// Generates the grid of sprites used to render the game world
     /// </summary>
@@ -75,6 +76,17 @@ public class GameGrid : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the SpriteRenderer corresponding to a tile in the game world
+    /// </summary>
+    /// <param name="gridPosition"></param>
+    /// <returns></returns>
+    public SpriteRenderer GetSpriteGridElement(Vector2Int gridPosition)
+    {
+        Vector2Int pos = levelSettings.WrapPos(gridPosition.x - GridCameraPosition.x, gridPosition.y - GridCameraPosition.y);
+        return spriteGrid[pos.x, pos.y];
+    }
+
+    /// <summary>
     /// Redraw all tiles in view. Happens whenever the player position changes.
     /// </summary>
     public void DrawTiles()
@@ -86,23 +98,14 @@ public class GameGrid : MonoBehaviour
         {
             for (int y = 0; y < visibleTilesOnScreen.y; y++)
             {
-                Vector2Int worldPos = new Vector2Int(x - GridCameraPosition.x - halfX, y - GridCameraPosition.y - halfY);
-                Vector2Int screenPos = new Vector2Int(x, y);
+                Vector2Int gridPosition = new Vector2Int(x - GridCameraPosition.x - halfX, y - GridCameraPosition.y - halfY);
+                Vector2Int screenPosition = new Vector2Int(x, y);
 
-                GridTileType tileType = levelGenerator.Get(worldPos);
-                Sprite sprite = levelSettings.tileset.GetSpriteByTileType(tileType, worldPos.x, worldPos.y);
-                spriteGrid[screenPos.x, screenPos.y].sprite = sprite;
+                GridTileType tileType = levelGenerator.Get(gridPosition);
+                Sprite sprite = levelSettings.tileset.GetSpriteByTileType(tileType, gridPosition.x, gridPosition.y);
+                spriteGrid[screenPosition.x, screenPosition.y].sprite = sprite;
             }
         }
     }
-
-    /// <summary>
-    /// Draw all entities within view. Happens every game tick.
-    /// </summary>
-    public void DrawEntities()
-    {
-
-    }
-
 
 }

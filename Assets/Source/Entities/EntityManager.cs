@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EntityManager : MonoBehaviour
 {
+    public GameGrid gameGrid;
     public List<GridEntity> entities = new List<GridEntity>();
     Dictionary<GridEntity, TurnAction> activeTurnActions = new Dictionary<GridEntity, TurnAction>();
     int currentTurn;
@@ -38,7 +39,7 @@ public class EntityManager : MonoBehaviour
                     // execute movement
                     if (action.executionTurn == currentTurn)
                     {
-
+                        action.caster.gridPosition = action.caster.gridPosition + action.values[0];
                     }
                     // show intent
                     else
@@ -83,4 +84,13 @@ public class EntityManager : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Draw all entities within view. Happens every game tick.
+    /// </summary>
+    public void DrawEntities()
+    {
+
+    }
+
 }

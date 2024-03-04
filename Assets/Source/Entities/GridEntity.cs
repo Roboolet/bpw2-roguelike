@@ -20,7 +20,7 @@ public struct TurnAction
     public int executionTurn;       // the turn when this action should be executed
     public int cooldown;            // how many turns to wait before being able to do another action
     public TurnActionType type;
-    public Vector2Int[] targets;
+    public Vector2Int[] values;
     public GridEntity caster;
 
     public static TurnAction CreateMoveAction(GridEntity caster, Vector2Int positionOffset, int untilTurn, int priority = 0)
@@ -30,7 +30,7 @@ public struct TurnAction
         newAction.priority = priority;
         newAction.caster = caster;
         newAction.executionTurn = untilTurn;
-        newAction.targets = new Vector2Int[1] { caster.gridPosition + positionOffset };
+        newAction.values = new Vector2Int[1] { positionOffset };
 
         return newAction;
     }
