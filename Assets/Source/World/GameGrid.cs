@@ -36,7 +36,6 @@ public class GameGrid : MonoBehaviour
         levelGenerator.GenerateWorld(levelSettings);
 
         GenerateSpriteGrid();
-        GridCameraPosition = Vector2Int.zero;
 
         OnCameraUpdated += DrawTiles;
     }
@@ -49,6 +48,7 @@ public class GameGrid : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A)) { GridCameraPosition -= Vector2Int.left; }
         if (Input.GetKeyDown(KeyCode.S)) { GridCameraPosition -= Vector2Int.down; }
         if (Input.GetKeyDown(KeyCode.D)) { GridCameraPosition -= Vector2Int.right; }
+
     }
 
 
@@ -95,6 +95,7 @@ public class GameGrid : MonoBehaviour
     /// </summary>
     public void DrawTiles()
     {
+
         // use random noise based on position to make tiles distinct from one another
         int halfX = visibleTilesOnScreen.x / 2;
         int halfY = visibleTilesOnScreen.y / 2;

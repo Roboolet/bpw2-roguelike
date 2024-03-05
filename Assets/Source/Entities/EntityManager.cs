@@ -5,6 +5,7 @@ using UnityEngine;
 public class EntityManager : MonoBehaviour
 {
     public GameGrid gameGrid;
+    public PlayerEntity playerEntityReference;
     public List<GridEntity> entities = new List<GridEntity>();
     Dictionary<GridEntity, TurnAction> activeTurnActions = new Dictionary<GridEntity, TurnAction>();
     int currentTurn;
@@ -12,6 +13,8 @@ public class EntityManager : MonoBehaviour
     private void Awake()
     {
         gameGrid.OnCameraUpdated += DrawEntities;
+
+        // find the player among entities
     }
 
     public void EndTurn()
@@ -89,6 +92,7 @@ public class EntityManager : MonoBehaviour
             }
         }
 
+        gameGrid.GridCameraPosition = playerEntityReference.gridPosition;
         DrawEntities();
     }
 
