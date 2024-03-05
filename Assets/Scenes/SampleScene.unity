@@ -204,7 +204,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 69131875}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 757471328}
+        m_TargetAssemblyTypeName: UIVirtualDpad, Assembly-CSharp
+        m_MethodName: SendPlayerAction
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &69131875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c513d04b018bb0d40ae0edb3667408f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 0
+  debugMode: 1
   levelSettings: {fileID: 11400000, guid: 6b2c11bf9a7567742b24c760fdd98526, type: 2}
   visibleTilesOnScreen: {x: 40, y: 40}
 --- !u!4 &116316406
@@ -371,7 +383,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 141759875}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 757471328}
+        m_TargetAssemblyTypeName: UIVirtualDpad, Assembly-CSharp
+        m_MethodName: SendPlayerAction
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &141759875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,7 +583,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 450175027}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 757471328}
+        m_TargetAssemblyTypeName: UIVirtualDpad, Assembly-CSharp
+        m_MethodName: SendPlayerAction
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &450175027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -780,7 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd70400381ad4874590bba7c4330fad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 30}
+  gridPosition: {x: 0, y: 0}
   health: 0
 --- !u!212 &548471048
 SpriteRenderer:
@@ -969,6 +1005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d34f2e25299f8740ac92ea3e64bb894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityManager: {fileID: 2125800727}
 --- !u!1 &845445990
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,7 +1189,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1425740632}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 757471328}
+        m_TargetAssemblyTypeName: UIVirtualDpad, Assembly-CSharp
+        m_MethodName: SendPlayerAction
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1425740632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1272,7 +1321,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2041190269}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 757471328}
+        m_TargetAssemblyTypeName: UIVirtualDpad, Assembly-CSharp
+        m_MethodName: SendPlayerAction
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2041190269
 MonoBehaviour:
   m_ObjectHideFlags: 0

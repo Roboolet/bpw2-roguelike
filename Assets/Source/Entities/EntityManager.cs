@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EntityManager : MonoBehaviour
 {
@@ -10,11 +11,24 @@ public class EntityManager : MonoBehaviour
     Dictionary<GridEntity, TurnAction> activeTurnActions = new Dictionary<GridEntity, TurnAction>();
     int currentTurn;
 
+    public Action OnTimeAdvanced;
+
     private void Awake()
     {
         gameGrid.OnCameraUpdated += DrawEntities;
-
+        OnTimeAdvanced += UpdateGameGridVisuals;
         // find the player among entities
+    }
+
+    private void Start()
+    {
+        OnTimeAdvanced?.Invoke();
+    }
+
+    void UpdateGameGridVisuals()
+    {
+        gameGrid.GridCameraPosition = playerEntityReference.gridPosition;
+        gameGrid.DrawTiles();
     }
 
     public void EndTurn()
@@ -92,7 +106,8 @@ public class EntityManager : MonoBehaviour
             }
         }
 
-        gameGrid.GridCameraPosition = playerEntityReference.gridPosition;
+        OnTimeAdvanced?.Invoke();
+        ;
         DrawEntities();
     }
 

@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class UIVirtualDpad : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    PlayerEntity playerEntityReference;
+    public EntityManager entityManager;
+
+    private void Awake()
     {
-        
+        playerEntityReference = entityManager.playerEntityReference;
+        entityManager.OnTimeAdvanced += UpdateButtons;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateButtons()
     {
-        
+
+    }
+
+    // see PlayerEntity.cs for what each actionID does
+    public void SendPlayerAction(int actionID)
+    {
+        playerEntityReference.SetActionType(actionID);
+        entityManager.EndTurn();
     }
 }

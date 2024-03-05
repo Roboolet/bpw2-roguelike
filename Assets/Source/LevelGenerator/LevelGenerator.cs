@@ -45,7 +45,7 @@ public class LevelGenerator
         }
 
         Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xStartPos, lastConnPoint.y + 1);
-        Debug.Log($"xStartPos {xStartPos}, lastConnPoint.x {lastConnPoint.x}, zeroPos.x {zeroPos.x}");
+        //Debug.Log($"xStartPos {xStartPos}, lastConnPoint.x {lastConnPoint.x}, zeroPos.x {zeroPos.x}");
         int totalRoomArea = roomData.width * roomData.height;
         for (int i = 0; i < totalRoomArea; i++)
         {
