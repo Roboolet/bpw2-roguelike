@@ -5,23 +5,19 @@ using System;
 
 public class EntityManager : MonoBehaviour
 {
-    public GameGrid gameGrid;
     public PlayerEntity playerEntityReference;
     public List<GridEntity> entities = new List<GridEntity>();
     Dictionary<GridEntity, TurnAction> activeTurnActions = new Dictionary<GridEntity, TurnAction>();
     int currentTurn;
 
     public Action OnTimeAdvanced;
-
-    private void Awake()
-    {
-        gameGrid.OnCameraUpdated += DrawEntities;
-        OnTimeAdvanced += UpdateGameGridVisuals;
-        // find the player among entities
-    }
+    GameGrid gameGrid;
 
     private void Start()
     {
+        gameGrid = GameGrid.instance;
+        gameGrid.OnCameraUpdated += DrawEntities;
+        OnTimeAdvanced += UpdateGameGridVisuals;
         OnTimeAdvanced?.Invoke();
     }
 
@@ -111,7 +107,7 @@ public class EntityManager : MonoBehaviour
         for(int i = 0; i < entities.Count; i++)
         {
             GridEntity entity = entities[i];
-            Vector2 screenPos = gameGrid.GetSpriteGridElement(entity.gridPosition).transform.position;
+            Vector2 screenPos = gameGrid.GetSpriteGridElementAtGridPosition(entity.gridPosition).transform.position;
 
             entity.transform.position = screenPos;
         }

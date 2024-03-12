@@ -21,7 +21,7 @@ public class UIVirtualDpad : MonoBehaviour
     // see PlayerEntity.cs for what each actionID does
     public void SendPlayerAction(int actionID)
     {
-        playerEntityReference.SetActionType(actionID);
+        playerEntityReference.selectedEntityActionPreset = (EntityActionPreset)actionID;
         entityManager.EndTurn();
     }
 }

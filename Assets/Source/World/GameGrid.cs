@@ -6,6 +6,7 @@ using System;
 
 public class GameGrid : MonoBehaviour
 {
+    public static GameGrid instance;
     public bool debugMode;
 
     // stores markers so you can't generate loot more than once from chests, and other one-time things
@@ -32,6 +33,8 @@ public class GameGrid : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+
         levelGenerator = new LevelGenerator();
         levelGenerator.GenerateWorld(levelSettings);
 
@@ -84,7 +87,7 @@ public class GameGrid : MonoBehaviour
     /// </summary>
     /// <param name="gridPosition"></param>
     /// <returns></returns>
-    public SpriteRenderer GetSpriteGridElement(Vector2Int gridPosition)
+    public SpriteRenderer GetSpriteGridElementAtGridPosition(Vector2Int gridPosition)
     {
         int halfX = visibleTilesOnScreen.x / 2;
         int halfY = visibleTilesOnScreen.y / 2;
@@ -111,6 +114,11 @@ public class GameGrid : MonoBehaviour
                 spriteGrid[screenPosition.x, screenPosition.y].sprite = sprite;
             }
         }
+    }
+
+    public GridTileType GetTileAtGridPosition(Vector2Int gridPosition)
+    {
+        return levelGenerator.Get(gridPosition.x, gridPosition.y);
     }
 
 }
