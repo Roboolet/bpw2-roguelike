@@ -112,5 +112,26 @@ public class LevelGenerator
 public enum GridTileType : byte
 {
     Empty, Wall, Ladder, StairRight, StairLeft, LightSource, GeneratorStartPoint, GeneratorEndPoint, Chest
+
+}
+
+public static class GridTileTypeHelper
+{
+    public static bool IsTileEmpty(GridTileType type)
+    {
+        return (type == GridTileType.Empty || type == GridTileType.LightSource);
+    }
+
+    public static bool IsTileClimbable(GridTileType type)
+    {
+        return (type == GridTileType.Ladder || type == GridTileType.GeneratorEndPoint || type == GridTileType.GeneratorStartPoint);
+    }
+
+    public static bool IsTileSolid(GridTileType type)
+    {
+        return (type == GridTileType.Wall);
+    }
+
+
 }
 

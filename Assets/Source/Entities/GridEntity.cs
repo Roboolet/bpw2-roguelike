@@ -22,39 +22,42 @@ public abstract class GridEntity : MonoBehaviour
         GridTileType t_above = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.up);
         GridTileType t_left = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.left);
         GridTileType t_right = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.right);
+        GridTileType t_leftUnder = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.down);
+        GridTileType t_rightUnder = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.down);
 
         // you cannot walk into walls, set preset to none/idle
-        if ((selectedEntityActionPreset == EntityActionPreset.MoveDown && t_under == GridTileType.Wall) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveUp && t_above == GridTileType.Wall) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveLeft && t_left == GridTileType.Wall) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveRight && t_right == GridTileType.Wall))
+        if ((selectedEntityActionPreset == EntityActionPreset.MoveDown && GridTileTypeHelper.IsTileSolid(t_under)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveUp && GridTileTypeHelper.IsTileSolid(t_above)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileSolid(t_left)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileSolid(t_right)))
         {
             selectedEntityActionPreset = EntityActionPreset.None;
         }
 
         // walk up stairs
         // this does not account for having a wall directly above a stair... surely that will never happen
-        else if(selectedEntityActionPreset == EntityActionPreset.MoveLeft && t_left == GridTileType.Wall)
+        else if(selectedEntityActionPreset == EntityActionPreset.MoveLeft && t_left == GridTileType.StairLeft)
         {
             selectedEntityActionPreset = EntityActionPreset.MoveUpLeft;
         }
-        else if(selectedEntityActionPreset == EntityActionPreset.MoveRight && t_right == GridTileType.Wall)
+        else if(selectedEntityActionPreset == EntityActionPreset.MoveRight && t_right == GridTileType.StairRight)
         {
             selectedEntityActionPreset = EntityActionPreset.MoveUpRight;
+        }
+        else if (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileEmpty(t_leftUnder))
+        {
+            selectedEntityActionPreset = EntityActionPreset.MoveDownLeft;
+        }
+        else if (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileEmpty(t_rightUnder))
+        {
+            selectedEntityActionPreset = EntityActionPreset.MoveDownRight;
         }
 
         if (!canFly)
         {
-            // if no ladder here and tries to move up, set preset to none
-            if (selectedEntityActionPreset == EntityActionPreset.MoveUp
-                && (t_this == GridTileType.Ladder || t_above == GridTileType.GeneratorEndPoint || t_above == GridTileType.GeneratorStartPoint))
-            {
-                selectedEntityActionPreset = EntityActionPreset.None;
-            }
-
-            // if no floor underneath entity, force it to fall down
+            // if no floor underneath entity and not on ladder, force it to fall down
             // this step has to happen last
-            if (t_under == GridTileType.Empty || t_under == GridTileType.LightSource)
+            if (GridTileTypeHelper.IsTileEmpty(t_under) && !GridTileTypeHelper.IsTileClimbable(t_this))
             {
                 selectedEntityActionPreset = EntityActionPreset.MoveDown;
             }
@@ -73,10 +76,16 @@ public abstract class GridEntity : MonoBehaviour
                 return TurnAction.CreateMoveAction(this, Vector2Int.down, turnNumber + baseTurnDelay, priority: basePriority);
             case EntityActionPreset.MoveRight:
                 return TurnAction.CreateMoveAction(this, Vector2Int.right, turnNumber + baseTurnDelay, priority: basePriority);
+
+            // diagonal movement
             case EntityActionPreset.MoveUpLeft:
                 return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.up, turnNumber + baseTurnDelay, priority: basePriority);
             case EntityActionPreset.MoveUpRight:
                 return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.up, turnNumber + baseTurnDelay, priority: basePriority);
+            case EntityActionPreset.MoveDownLeft:
+                return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.down, turnNumber + baseTurnDelay, priority: basePriority);
+            case EntityActionPreset.MoveDownRight:
+                return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.down, turnNumber + baseTurnDelay, priority: basePriority);
 
         }
     }
@@ -136,7 +145,7 @@ public enum EntityActionPreset
     MoveUp = 1, MoveLeft = 2, MoveDown = 3, MoveRight = 4,
     AttackUp = 5, AttackLeft = 6, AttackDown = 7, AttackRight = 8,
 
-    // used with stairs
-    MoveUpLeft = 9, MoveUpRight = 10
+    // used with stairs and falling
+    MoveUpLeft = 9, MoveUpRight = 10, MoveDownLeft = 11, MoveDownRight = 12
 }
 
