@@ -44,10 +44,10 @@ public class GameGrid : MonoBehaviour
     {
         if (!debugMode) return;
 
-        if(Input.GetKeyDown(KeyCode.W)) { GridCameraPosition -= Vector2Int.up; }
-        if (Input.GetKeyDown(KeyCode.A)) { GridCameraPosition -= Vector2Int.left; }
-        if (Input.GetKeyDown(KeyCode.S)) { GridCameraPosition -= Vector2Int.down; }
-        if (Input.GetKeyDown(KeyCode.D)) { GridCameraPosition -= Vector2Int.right; }
+        if(Input.GetKeyDown(KeyCode.W)) { GridCameraPosition += Vector2Int.up; }
+        if (Input.GetKeyDown(KeyCode.A)) { GridCameraPosition += Vector2Int.left; }
+        if (Input.GetKeyDown(KeyCode.S)) { GridCameraPosition += Vector2Int.down; }
+        if (Input.GetKeyDown(KeyCode.D)) { GridCameraPosition += Vector2Int.right; }
 
     }
 
@@ -86,7 +86,9 @@ public class GameGrid : MonoBehaviour
     /// <returns></returns>
     public SpriteRenderer GetSpriteGridElement(Vector2Int gridPosition)
     {
-        Vector2Int pos = levelSettings.WrapPos(gridPosition.x + GridCameraPosition.x, gridPosition.y + GridCameraPosition.y);
+        int halfX = visibleTilesOnScreen.x / 2;
+        int halfY = visibleTilesOnScreen.y / 2;
+        Vector2Int pos = levelSettings.WrapPos(gridPosition.x - GridCameraPosition.x + halfX, gridPosition.y - GridCameraPosition.y + halfY);
         return spriteGrid[pos.x, pos.y];
     }
 
@@ -95,15 +97,13 @@ public class GameGrid : MonoBehaviour
     /// </summary>
     public void DrawTiles()
     {
-
-        // use random noise based on position to make tiles distinct from one another
         int halfX = visibleTilesOnScreen.x / 2;
         int halfY = visibleTilesOnScreen.y / 2;
         for (int x = 0; x < visibleTilesOnScreen.x; x++)
         {
             for (int y = 0; y < visibleTilesOnScreen.y; y++)
             {
-                Vector2Int gridPosition = new Vector2Int(x - GridCameraPosition.x - halfX, y - GridCameraPosition.y - halfY);
+                Vector2Int gridPosition = new Vector2Int(x + GridCameraPosition.x - halfX, y + GridCameraPosition.y - halfY);
                 Vector2Int screenPosition = new Vector2Int(x, y);
 
                 GridTileType tileType = levelGenerator.Get(gridPosition);

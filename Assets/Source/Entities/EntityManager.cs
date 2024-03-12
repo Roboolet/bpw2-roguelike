@@ -47,9 +47,9 @@ public class EntityManager : MonoBehaviour
         }
 
         // execute actions for this turn in order, remove if cooldown is over
-        for(int i = 0; i < actionsThisTurn.Count; i++)
+        foreach(KeyValuePair<int, TurnAction> pair in actionsThisTurn)
         {
-            TurnAction action = actionsThisTurn[i];
+            TurnAction action = pair.Value;
 
             switch (action.type)
             {
@@ -59,7 +59,7 @@ public class EntityManager : MonoBehaviour
 
                 case TurnActionType.Move:
                     // execute movement
-                    if (action.executionTurn == currentTurn)
+                    if (action.executionTurn <= currentTurn)
                     {
                         action.caster.gridPosition = action.caster.gridPosition + action.values[0];
                     }
@@ -72,7 +72,7 @@ public class EntityManager : MonoBehaviour
 
                 case TurnActionType.Attack:
                     // execute attack
-                    if (action.executionTurn == currentTurn)
+                    if (action.executionTurn <= currentTurn)
                     {
 
                     }

@@ -19,16 +19,16 @@ public class PlayerEntity : GridEntity
 
         switch (selectedActionType)
         {
-            default: return TurnAction.CreateIdleAction(this, turnNumber+1);
+            default: return TurnAction.CreateIdleAction(this, turnNumber);
 
             case PlayerTurnActionType.MoveUp: 
-                return TurnAction.CreateMoveAction(this, Vector2Int.up, turnNumber+1, priority: -1);
+                return TurnAction.CreateMoveAction(this, Vector2Int.up, turnNumber, priority: -1);
             case PlayerTurnActionType.MoveLeft: 
-                return TurnAction.CreateMoveAction(this, Vector2Int.left, turnNumber + 1, priority: -1);
+                return TurnAction.CreateMoveAction(this, Vector2Int.left, turnNumber, priority: -1);
             case PlayerTurnActionType.MoveDown: 
-                return TurnAction.CreateMoveAction(this, Vector2Int.down, turnNumber + 1, priority: -1);
+                return TurnAction.CreateMoveAction(this, Vector2Int.down, turnNumber, priority: -1);
             case PlayerTurnActionType.MoveRight: 
-                return TurnAction.CreateMoveAction(this, Vector2Int.right, turnNumber + 1, priority: -1);
+                return TurnAction.CreateMoveAction(this, Vector2Int.right, turnNumber, priority: -1);
         }
 
     }
