@@ -34,13 +34,18 @@ public class EntityManager : MonoBehaviour
     public void EndTurn()
     {
         SortedList<int, TurnAction> actionsThisTurn = new SortedList<int, TurnAction>();
-
-        // get all active actions
         for (int i = 0; i < entities.Count; i++)
         {
             GridEntity e = entities[i];
 
-            if(activeTurnActions.TryGetValue(e, out TurnAction action))
+            // get all active turn actions from all entities
+            if (!activeTurnActions.ContainsKey(e))
+            {
+                activeTurnActions.Add(e, e.EvaluateNextAction(currentTurn));
+            }
+
+            // sort the actions into ordered from smallest to biggest priority
+            if (activeTurnActions.TryGetValue(e, out TurnAction action))
             {
                 actionsThisTurn.Add(action.priority, action);
             }
@@ -85,7 +90,7 @@ public class EntityManager : MonoBehaviour
             }
 
             // delete from active actions when used up
-            if(action.executionTurn + action.cooldown == currentTurn)
+            if(action.executionTurn + action.cooldown <= currentTurn)
             {
                 activeTurnActions.Remove(action.caster);
             }
@@ -93,21 +98,8 @@ public class EntityManager : MonoBehaviour
             currentTurn++;
         }
 
-        // generate new actions if possible
-        for (int i = 0; i < entities.Count; i++)
-        {
-            GridEntity e = entities[i];
-
-            // only add new actions when there is none for this entity
-            // makes cooldowns work
-            if (!activeTurnActions.ContainsKey(e))
-            {
-                activeTurnActions.Add(e, e.EvaluateNextAction(currentTurn));
-            }
-        }
-
         OnTimeAdvanced?.Invoke();
-        ;
+        
         DrawEntities();
     }
 
