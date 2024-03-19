@@ -8,9 +8,9 @@ public class GameGridTileset : ScriptableObject
     const int textureSeed = 2003;
     public Sprite[] t_wall, t_ladder, t_stairRight, t_stairLeft, t_light, t_chest;
 
-    public Sprite GetSpriteByTileType(GridTileType type, int x, int y)
+    public Sprite GetSpriteByTileType(GridTileType type, float x, float y)
     {
-        float seedVal = Mathf.PerlinNoise(textureSeed + x, textureSeed + y);
+        float seedVal = Mathf.PerlinNoise(textureSeed + x * 0.1f, textureSeed + y * 0.1f);
 
         switch (type)
         {
