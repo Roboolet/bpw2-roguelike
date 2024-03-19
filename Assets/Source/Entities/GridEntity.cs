@@ -6,6 +6,7 @@ public abstract class GridEntity : MonoBehaviour
 {
     public EntityActionPreset selectedEntityActionPreset;
     public Vector2Int gridPosition;
+    [HideInInspector] public EntityManager entityManager;
 
     [Header("Stats")]
     public int health;

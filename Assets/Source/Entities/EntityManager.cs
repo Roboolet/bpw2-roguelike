@@ -15,6 +15,11 @@ public class EntityManager : MonoBehaviour
 
     private void Start()
     {
+        for(int i = 0; i < entities.Count; i++)
+        {
+            entities[i].entityManager = this;
+        }
+
         gameGrid = GameGrid.instance;
         gameGrid.OnCameraUpdated += DrawEntities;
         OnTimeAdvanced += UpdateGameGridVisuals;
@@ -29,7 +34,7 @@ public class EntityManager : MonoBehaviour
 
     public void EndTurn()
     {
-        SortedList<int, TurnAction> actionsThisTurn = new SortedList<int, TurnAction>();
+        List<TurnAction> actionsThisTurn = new List<TurnAction>();
         for (int i = 0; i < entities.Count; i++)
         {
             GridEntity e = entities[i];
@@ -43,15 +48,14 @@ public class EntityManager : MonoBehaviour
             // sort the actions into ordered from smallest to biggest priority
             if (activeTurnActions.TryGetValue(e, out TurnAction action))
             {
-                actionsThisTurn.Add(action.priority, action);
+                actionsThisTurn.Add(action);
             }
         }
+        actionsThisTurn.Sort(new TurnActionSorter());
 
         // execute actions for this turn in order, remove if cooldown is over
-        foreach(KeyValuePair<int, TurnAction> pair in actionsThisTurn)
+        foreach(TurnAction action in actionsThisTurn)
         {
-            TurnAction action = pair.Value;
-
             switch (action.type)
             {
 
@@ -113,4 +117,12 @@ public class EntityManager : MonoBehaviour
         }
     }
 
+}
+
+public class TurnActionSorter : IComparer<TurnAction>
+{
+    public int Compare(TurnAction x, TurnAction y)
+    {
+        return x.priority.CompareTo(y.priority);
+    }
 }
