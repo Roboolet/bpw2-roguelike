@@ -9,7 +9,11 @@ public class EnemyZombie : GridEntity
     {
         Vector2Int playerPos = entityManager.playerEntityReference.gridPosition;
 
-        if (playerPos.x < gridPosition.x)
+        if(playerPos.y > gridPosition.y && GridTileTypeHelper.IsTileClimbable(t_this))
+        {
+            selectedEntityActionPreset = EntityActionPreset.MoveUp;
+        }
+        else if (playerPos.x < gridPosition.x)
         {
             selectedEntityActionPreset = EntityActionPreset.MoveLeft;
         }

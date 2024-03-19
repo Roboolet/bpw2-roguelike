@@ -16,6 +16,10 @@ public abstract class GridEntity : MonoBehaviour
     public int baseTurnDelay;
     public int basePriority;
 
+    // adjacent tiles
+
+    protected GridTileType t_this, t_under, t_above, t_left, t_right, t_leftUnder, t_rightUnder;
+
     /// <summary>
     /// Run behaviour here
     /// </summary>
@@ -27,15 +31,15 @@ public abstract class GridEntity : MonoBehaviour
 
     public TurnAction EvaluateNextAction(int turnNumber)
     {
-        BeforeEvaluation(turnNumber);
+        t_this = GameGrid.instance.GetTileAtGridPosition(gridPosition);
+        t_under = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.down);
+        t_above = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.up);
+        t_left = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.left);
+        t_right = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.right);
+        t_leftUnder = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.down);
+        t_rightUnder = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.down);
 
-        GridTileType t_this = GameGrid.instance.GetTileAtGridPosition(gridPosition);
-        GridTileType t_under = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.down);
-        GridTileType t_above = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.up);
-        GridTileType t_left = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.left);
-        GridTileType t_right = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.right);
-        GridTileType t_leftUnder = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.down);
-        GridTileType t_rightUnder = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.down);
+        BeforeEvaluation(turnNumber);
 
         // you cannot walk into walls, set preset to none/idle
         if ((selectedEntityActionPreset == EntityActionPreset.MoveDown && GridTileTypeHelper.IsTileSolid(t_under)) ||
