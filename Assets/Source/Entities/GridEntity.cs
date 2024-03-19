@@ -15,8 +15,19 @@ public abstract class GridEntity : MonoBehaviour
     public int baseTurnDelay;
     public int basePriority;
 
-    public virtual TurnAction EvaluateNextAction(int turnNumber)
+    /// <summary>
+    /// Run behaviour here
+    /// </summary>
+    /// <param name="turnNumber"></param>
+    protected virtual void BeforeEvaluation(int turnNumber)
     {
+
+    }
+
+    public TurnAction EvaluateNextAction(int turnNumber)
+    {
+        BeforeEvaluation(turnNumber);
+
         GridTileType t_this = GameGrid.instance.GetTileAtGridPosition(gridPosition);
         GridTileType t_under = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.down);
         GridTileType t_above = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.up);
@@ -64,6 +75,7 @@ public abstract class GridEntity : MonoBehaviour
 
         }
 
+        // create the move action
         switch (selectedEntityActionPreset)
         {
             default: return EvaluateNonPresetAction(turnNumber);
