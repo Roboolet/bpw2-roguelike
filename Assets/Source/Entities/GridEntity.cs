@@ -17,8 +17,7 @@ public abstract class GridEntity : MonoBehaviour
     public int basePriority;
 
     // adjacent tiles
-
-    protected GridTileType t_this, t_under, t_above, t_left, t_right, t_leftUnder, t_rightUnder;
+    protected AdjacentTiles adjacentTiles;
 
     /// <summary>
     /// Run behaviour here
@@ -26,45 +25,38 @@ public abstract class GridEntity : MonoBehaviour
     /// <param name="turnNumber"></param>
     protected virtual void BeforeEvaluation(int turnNumber)
     {
-
     }
 
     public TurnAction EvaluateNextAction(int turnNumber)
     {
-        t_this = GameGrid.instance.GetTileAtGridPosition(gridPosition);
-        t_under = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.down);
-        t_above = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.up);
-        t_left = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.left);
-        t_right = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.right);
-        t_leftUnder = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.down);
-        t_rightUnder = GameGrid.instance.GetTileAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.down);
+        adjacentTiles = new AdjacentTiles(GameGrid.instance, gridPosition);
 
         BeforeEvaluation(turnNumber);
 
         // you cannot walk into walls, set preset to none/idle
-        if ((selectedEntityActionPreset == EntityActionPreset.MoveDown && GridTileTypeHelper.IsTileSolid(t_under)) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveUp && GridTileTypeHelper.IsTileSolid(t_above)) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileSolid(t_left)) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileSolid(t_right)))
+        if ((selectedEntityActionPreset == EntityActionPreset.MoveDown && GridTileTypeHelper.IsTileSolid(adjacentTiles.under)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveUp && GridTileTypeHelper.IsTileSolid(adjacentTiles.above)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileSolid(adjacentTiles.left)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileSolid(adjacentTiles.right)))
         {
             selectedEntityActionPreset = EntityActionPreset.None;
         }
 
         // walk up stairs
         // this does not account for having a wall directly above a stair... surely that will never happen
-        else if(selectedEntityActionPreset == EntityActionPreset.MoveLeft && t_left == GridTileType.StairLeft)
+        else if(selectedEntityActionPreset == EntityActionPreset.MoveLeft && adjacentTiles.left == GridTileType.StairLeft)
         {
             selectedEntityActionPreset = EntityActionPreset.MoveUpLeft;
         }
-        else if(selectedEntityActionPreset == EntityActionPreset.MoveRight && t_right == GridTileType.StairRight)
+        else if(selectedEntityActionPreset == EntityActionPreset.MoveRight && adjacentTiles.right == GridTileType.StairRight)
         {
             selectedEntityActionPreset = EntityActionPreset.MoveUpRight;
         }
-        else if (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileEmpty(t_leftUnder))
+        else if (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileEmpty(adjacentTiles.leftUnder))
         {
             selectedEntityActionPreset = EntityActionPreset.MoveDownLeft;
         }
-        else if (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileEmpty(t_rightUnder))
+        else if (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileEmpty(adjacentTiles.rightUnder))
         {
             selectedEntityActionPreset = EntityActionPreset.MoveDownRight;
         }
@@ -72,8 +64,8 @@ public abstract class GridEntity : MonoBehaviour
         if (!canFly)
         {
             // if no floor underneath entity and not on ladder, force it to fall down
-            // this step has to happen last
-            if (GridTileTypeHelper.IsTileEmpty(t_under) && !GridTileTypeHelper.IsTileClimbable(t_this))
+            // this step has to happen last so it can overwrite other moves
+            if (GridTileTypeHelper.IsTileEmpty(adjacentTiles.under) && !GridTileTypeHelper.IsTileClimbable(adjacentTiles.current))
             {
                 selectedEntityActionPreset = EntityActionPreset.MoveDown;
             }
@@ -117,6 +109,23 @@ public abstract class GridEntity : MonoBehaviour
         // drop loot
     }
     
+    protected struct AdjacentTiles
+    {
+        public GridTileType current, under, above, left, right, leftAbove, rightAbove, leftUnder, rightUnder;
+
+        public AdjacentTiles(GameGrid gameGridInstance, Vector2Int gridPosition)
+        {
+            current = gameGridInstance.GetTileAtGridPosition(gridPosition);
+            under = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.down);
+            above = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.up);
+            left = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.left);
+            right = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.right);
+            leftAbove = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.up);
+            rightAbove = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.up);
+            leftUnder = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.down);
+            rightUnder = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.down);
+        }
+    }
 }
 
 public struct TurnAction

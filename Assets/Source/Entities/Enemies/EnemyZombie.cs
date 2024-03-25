@@ -9,17 +9,31 @@ public class EnemyZombie : GridEntity
     {
         Vector2Int playerPos = entityManager.playerEntityReference.gridPosition;
 
-        if(playerPos.y > gridPosition.y && GridTileTypeHelper.IsTileClimbable(t_this))
+        if(playerPos.y > gridPosition.y - 3 && GridTileTypeHelper.IsTileClimbable(adjacentTiles.current))
         {
             selectedEntityActionPreset = EntityActionPreset.MoveUp;
         }
         else if (playerPos.x < gridPosition.x)
         {
-            selectedEntityActionPreset = EntityActionPreset.MoveLeft;
+            if(playerPos == gridPosition + Vector2Int.left)
+            {
+                // attack
+            }
+            else
+            {
+                selectedEntityActionPreset = EntityActionPreset.MoveLeft;
+            }
         }
         else if (playerPos.x > gridPosition.x)
         {
-            selectedEntityActionPreset = EntityActionPreset.MoveRight;
+            if (playerPos == gridPosition + Vector2Int.right)
+            {
+                // attack
+            }
+            else
+            {
+                selectedEntityActionPreset = EntityActionPreset.MoveRight;
+            }
         }
     }
 }
