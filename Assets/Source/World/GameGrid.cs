@@ -109,14 +109,14 @@ public class GameGrid : MonoBehaviour
                 Vector2Int gridPosition = new Vector2Int(x + GridCameraPosition.x - halfX, y + GridCameraPosition.y - halfY);
                 Vector2Int screenPosition = new Vector2Int(x, y);
 
-                GridTileType tileType = levelGenerator.Get(gridPosition);
+                GridTileGeometry tileType = levelGenerator.Get(gridPosition);
                 Sprite sprite = levelSettings.tileset.GetSpriteByTileType(tileType, gridPosition.x, gridPosition.y);
                 spriteGrid[screenPosition.x, screenPosition.y].sprite = sprite;
             }
         }
     }
 
-    public GridTileType GetTileAtGridPosition(Vector2Int gridPosition)
+    public GridTileGeometry GetTileAtGridPosition(Vector2Int gridPosition)
     {
         return levelGenerator.Get(gridPosition.x, gridPosition.y);
     }

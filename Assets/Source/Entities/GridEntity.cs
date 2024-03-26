@@ -44,11 +44,11 @@ public abstract class GridEntity : MonoBehaviour
 
         // walk up stairs
         // this does not account for having a wall directly above a stair... surely that will never happen
-        else if(selectedEntityActionPreset == EntityActionPreset.MoveLeft && adjacentTiles.left == GridTileType.StairLeft)
+        else if(selectedEntityActionPreset == EntityActionPreset.MoveLeft && adjacentTiles.left == GridTileGeometry.StairLeft)
         {
             selectedEntityActionPreset = EntityActionPreset.MoveUpLeft;
         }
-        else if(selectedEntityActionPreset == EntityActionPreset.MoveRight && adjacentTiles.right == GridTileType.StairRight)
+        else if(selectedEntityActionPreset == EntityActionPreset.MoveRight && adjacentTiles.right == GridTileGeometry.StairRight)
         {
             selectedEntityActionPreset = EntityActionPreset.MoveUpRight;
         }
@@ -111,7 +111,7 @@ public abstract class GridEntity : MonoBehaviour
     
     protected struct AdjacentTiles
     {
-        public GridTileType current, under, above, left, right, leftAbove, rightAbove, leftUnder, rightUnder;
+        public GridTileGeometry current, under, above, left, right, leftAbove, rightAbove, leftUnder, rightUnder;
 
         public AdjacentTiles(GameGrid gameGridInstance, Vector2Int gridPosition)
         {

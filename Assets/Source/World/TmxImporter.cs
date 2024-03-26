@@ -32,7 +32,10 @@ namespace TmxImporter
                 level.width = map.Width;
                 level.height = map.Height;
 
-                level.geometryData = ConvertLayerToEnumArray<GridTileType>(map.Layer[0]);
+                // in the tiled editor, the bottom-most layer is layer 0
+                level.geometryData = ConvertLayerToEnumArray<GridTileGeometry>(map.Layer[0]);
+                if(map.Layer.Count > 1) level.spawnsData = ConvertLayerToEnumArray<GridTileSpawns>(map.Layer[1]);
+                if (map.Layer.Count > 2) level.backgroundData = ConvertLayerToEnumArray<GridTileBackground>(map.Layer[2]);
 
                 // finalize
                 EditorUtility.SetDirty(this);
@@ -158,4 +161,38 @@ namespace TmxImporter
 }
 #endif
 
+public enum GridTileGeometry : int
+{
+    // The lightsource and chest IDs are leftovers and should remain unused
+    Empty, Wall, Ladder, StairRight, StairLeft, LightSource, GeneratorStartPoint, GeneratorEndPoint, Chest
+}
+
+public enum GridTileSpawns : int
+{
+    Empty, ChestSpawnPoint, GroundEnemySpawnPoint, FlyingEnemySpawnPoint
+}
+
+public enum GridTileBackground : int
+{
+    Empty, LightSource
+}
+
+public static class GridTileTypeHelper
+{
+    public static bool IsTileEmpty(GridTileGeometry type)
+    {
+        return (type == GridTileGeometry.Empty || type == GridTileGeometry.LightSource || type == GridTileGeometry.Chest);
+    }
+
+    public static bool IsTileClimbable(GridTileGeometry type)
+    {
+        return (type == GridTileGeometry.Ladder || type == GridTileGeometry.GeneratorEndPoint || type == GridTileGeometry.GeneratorStartPoint);
+    }
+
+    public static bool IsTileSolid(GridTileGeometry type)
+    {
+        return (type == GridTileGeometry.Wall);
+    }
+
+}
 

@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic4.tmx",
+    "activeFile": "RoomShaper.tsx",
     "expandedProjectPaths": [
         "."
     ],
@@ -61,11 +61,7 @@
     "map.tileHeight": 8,
     "map.tileWidth": 8,
     "openFiles": [
-        "RoomShaper.tsx",
-        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic1.tmx",
-        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic2.tmx",
-        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic3.tmx",
-        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/World/Rooms/basic4.tmx"
+        "RoomShaper.tsx"
     ],
     "project": "TiledProject.tiled-project",
     "recentFiles": [

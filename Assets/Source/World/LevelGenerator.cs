@@ -6,7 +6,7 @@ public class LevelGenerator
 {
     LevelSettings settings;
 
-    GridTileType[,] grid;
+    GridTileGeometry[,] grid;
 
     Vector2Int lastConnPoint;
     int lastRoomIndex;
@@ -20,7 +20,7 @@ public class LevelGenerator
         }
 
         this.settings = settings;
-        grid = new GridTileType[settings.width, settings.height];
+        grid = new GridTileGeometry[settings.width, settings.height];
 
         for(int i = 0; i < settings.numberOfRooms; i++)
         {
@@ -48,7 +48,7 @@ public class LevelGenerator
         // find the entry point tile first
         for (int i = 0; i < roomData.geometryData.Length; i++)
         {
-            if ((roomData.geometryData[i] == GridTileType.GeneratorStartPoint))
+            if ((roomData.geometryData[i] == GridTileGeometry.GeneratorStartPoint))
             {
                 xStartPos = i % roomData.width;
                 break;
@@ -60,7 +60,7 @@ public class LevelGenerator
         int totalRoomArea = roomData.width * roomData.height;
         for (int i = 0; i < totalRoomArea; i++)
         {
-            GridTileType tileType = roomData.geometryData[i];
+            GridTileGeometry tileType = roomData.geometryData[i];
             int x = zeroPos.x + (i % roomData.width);
             int y = zeroPos.y + roomData.height - Mathf.FloorToInt(i / roomData.width);
             Set(tileType, x, y);
@@ -69,7 +69,7 @@ public class LevelGenerator
         // find the exit point tile and set the connpoint for next iteration
         for (int i = 0; i < roomData.geometryData.Length; i++)
         {
-            if ((roomData.geometryData[i] == GridTileType.GeneratorEndPoint))
+            if ((roomData.geometryData[i] == GridTileGeometry.GeneratorEndPoint))
             {
                 lastConnPoint = new Vector2Int(i % roomData.width + zeroPos.x, roomData.height + lastConnPoint.y);
                 break;
@@ -90,13 +90,13 @@ public class LevelGenerator
         return settings.rooms[rnd];
     }
 
-    public GridTileType Get (Vector2Int pos) => Get(pos.x, pos.y);
+    public GridTileGeometry Get (Vector2Int pos) => Get(pos.x, pos.y);
     /// <summary>
     /// Returns the tile at this position
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    public GridTileType Get(int x, int y)
+    public GridTileGeometry Get(int x, int y)
     {
         Vector2Int pos = settings.WrapPos(x, y);
 
@@ -110,7 +110,7 @@ public class LevelGenerator
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public void Set(GridTileType id, int x, int y)
+    public void Set(GridTileGeometry id, int x, int y)
     {
         Vector2Int truePos = settings.WrapPos(x, y);
 
@@ -120,29 +120,4 @@ public class LevelGenerator
     
 }
 
-public enum GridTileType : int
-{
-    Empty, Wall, Ladder, StairRight, StairLeft, LightSource, GeneratorStartPoint, GeneratorEndPoint, Chest
-
-}
-
-public static class GridTileTypeHelper
-{
-    public static bool IsTileEmpty(GridTileType type)
-    {
-        return (type == GridTileType.Empty || type == GridTileType.LightSource);
-    }
-
-    public static bool IsTileClimbable(GridTileType type)
-    {
-        return (type == GridTileType.Ladder || type == GridTileType.GeneratorEndPoint || type == GridTileType.GeneratorStartPoint);
-    }
-
-    public static bool IsTileSolid(GridTileType type)
-    {
-        return (type == GridTileType.Wall);
-    }
-
-
-}
 
