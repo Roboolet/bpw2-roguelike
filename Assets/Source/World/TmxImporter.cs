@@ -32,7 +32,7 @@ namespace TmxImporter
                 level.width = map.Width;
                 level.height = map.Height;
 
-                level.geometryData = ConvertCsvToIntArray<GridTileType>(map.Layer[0].Data.Text.Split(','), map.Width * map.Height);
+                level.geometryData = ConvertLayerToEnumArray<GridTileType>(map.Layer[0]);
 
                 // finalize
                 EditorUtility.SetDirty(this);
@@ -45,10 +45,11 @@ namespace TmxImporter
             }
         }
 
-        T[] ConvertCsvToIntArray<T>(string[] csv, int arraySize) where T : Enum
+        T[] ConvertLayerToEnumArray<T>(TmxLayer layer) where T : Enum
         {
+            string[] csv = layer.Data.Text.Split(',');
             int[] numbers = Array.ConvertAll(csv, int.Parse);
-            T[] temp = new T[arraySize];
+            T[] temp = new T[layer.Width * layer.Height];
 
             for (int i = 0; i < numbers.Length; i++)
             {
