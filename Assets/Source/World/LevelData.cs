@@ -7,5 +7,5 @@ public class LevelData : ScriptableObject
 {
     public int width;
     public int height;
-    public GridTileType[] data;
+    public GridTileType[] geometryData, backgroundData, enemySpawnData;
 }

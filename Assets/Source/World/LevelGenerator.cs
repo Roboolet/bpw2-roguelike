@@ -46,9 +46,9 @@ public class LevelGenerator
         int xStartPos = 0;
 
         // find the entry point tile first
-        for (int i = 0; i < roomData.data.Length; i++)
+        for (int i = 0; i < roomData.geometryData.Length; i++)
         {
-            if ((roomData.data[i] == GridTileType.GeneratorStartPoint))
+            if ((roomData.geometryData[i] == GridTileType.GeneratorStartPoint))
             {
                 xStartPos = i % roomData.width;
                 break;
@@ -60,16 +60,16 @@ public class LevelGenerator
         int totalRoomArea = roomData.width * roomData.height;
         for (int i = 0; i < totalRoomArea; i++)
         {
-            GridTileType tileType = roomData.data[i];
+            GridTileType tileType = roomData.geometryData[i];
             int x = zeroPos.x + (i % roomData.width);
             int y = zeroPos.y + roomData.height - Mathf.FloorToInt(i / roomData.width);
             Set(tileType, x, y);
         }
 
         // find the exit point tile and set the connpoint for next iteration
-        for (int i = 0; i < roomData.data.Length; i++)
+        for (int i = 0; i < roomData.geometryData.Length; i++)
         {
-            if ((roomData.data[i] == GridTileType.GeneratorEndPoint))
+            if ((roomData.geometryData[i] == GridTileType.GeneratorEndPoint))
             {
                 lastConnPoint = new Vector2Int(i % roomData.width + zeroPos.x, roomData.height + lastConnPoint.y);
                 break;
@@ -120,7 +120,7 @@ public class LevelGenerator
     
 }
 
-public enum GridTileType : byte
+public enum GridTileType : int
 {
     Empty, Wall, Ladder, StairRight, StairLeft, LightSource, GeneratorStartPoint, GeneratorEndPoint, Chest
 
