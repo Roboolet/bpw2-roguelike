@@ -169,12 +169,12 @@ public enum GridTileGeometry : int
 
 public enum GridTileSpawns : int
 {
-    Empty, ChestSpawnPoint, GroundEnemySpawnPoint, FlyingEnemySpawnPoint
+    Empty, ChestSpawnPoint=24, GroundEnemySpawnPoint=25, FlyingEnemySpawnPoint=26
 }
 
 public enum GridTileBackground : int
 {
-    Empty, LightSource
+    Empty, LightSource=40
 }
 
 public static class GridTileTypeHelper
