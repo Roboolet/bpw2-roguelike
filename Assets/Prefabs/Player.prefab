@@ -98,7 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedEntityActionPreset: 0
-  gridPosition: {x: 0, y: 5}
+  gridPosition: {x: 0, y: 6}
+  entityManager: {fileID: 0}
   health: 1
   canFly: 0
   baseTurnDelay: 0

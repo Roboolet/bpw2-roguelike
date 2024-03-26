@@ -6,7 +6,9 @@ using UnityEngine;
 public class LevelSettings : ScriptableObject
 {
     public int width, height;
+    public int numberOfRooms;
     public GameGridTileset tileset;
+    public LevelData firstRoom, lastRoom;
     public LevelData[] rooms;
 
     /// <summary>

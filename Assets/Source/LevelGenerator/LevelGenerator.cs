@@ -22,9 +22,20 @@ public class LevelGenerator
         this.settings = settings;
         grid = new GridTileType[settings.width, settings.height];
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < settings.numberOfRooms; i++)
         {
-            SpawnRoom(GetRandomRoom());
+            if (i == 0) 
+            { 
+                SpawnRoom(settings.firstRoom); 
+            }
+            else if (i == settings.numberOfRooms - 1) 
+            { 
+                SpawnRoom(settings.lastRoom); 
+            }
+            else
+            {
+                SpawnRoom(GetRandomRoom());
+            }
         }
     }
 
