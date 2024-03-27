@@ -115,15 +115,15 @@ public abstract class GridEntity : MonoBehaviour
 
         public AdjacentTiles(GameGrid gameGridInstance, Vector2Int gridPosition)
         {
-            current = gameGridInstance.GetTileAtGridPosition(gridPosition);
-            under = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.down);
-            above = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.up);
-            left = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.left);
-            right = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.right);
-            leftAbove = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.up);
-            rightAbove = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.up);
-            leftUnder = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.down);
-            rightUnder = gameGridInstance.GetTileAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.down);
+            current = gameGridInstance.GetGeometryAtGridPosition(gridPosition);
+            under = gameGridInstance.GetGeometryAtGridPosition(gridPosition + Vector2Int.down);
+            above = gameGridInstance.GetGeometryAtGridPosition(gridPosition + Vector2Int.up);
+            left = gameGridInstance.GetGeometryAtGridPosition(gridPosition + Vector2Int.left);
+            right = gameGridInstance.GetGeometryAtGridPosition(gridPosition + Vector2Int.right);
+            leftAbove = gameGridInstance.GetGeometryAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.up);
+            rightAbove = gameGridInstance.GetGeometryAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.up);
+            leftUnder = gameGridInstance.GetGeometryAtGridPosition(gridPosition + Vector2Int.left + Vector2Int.down);
+            rightUnder = gameGridInstance.GetGeometryAtGridPosition(gridPosition + Vector2Int.right + Vector2Int.down);
         }
     }
 }
