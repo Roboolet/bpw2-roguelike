@@ -50,12 +50,16 @@ namespace TmxImporter
 
         T[] ConvertLayerToEnumArray<T>(TmxLayer layer) where T : Enum
         {
+            // convert the string into a list of individual numbers
             string[] csv = layer.Data.Text.Split(',');
+
+            // turn the numbers into ints
             int[] numbers = Array.ConvertAll(csv, int.Parse);
             T[] temp = new T[layer.Width * layer.Height];
 
             for (int i = 0; i < numbers.Length; i++)
             {
+                // cast numbers to enum
                 temp[i] = (T)(object)numbers[i];
             }
 

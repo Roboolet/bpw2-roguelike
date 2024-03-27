@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,18 +47,15 @@ public class LevelGenerator
         int xStartPos = 0;
 
         // find the entry point tile first
-        for (int i = 0; i < roomData.geometryData.Length; i++)
+        if (roomData.TryGetGeneratorStartPoint(out Vector2Int startPos))
         {
-            if ((roomData.geometryData[i] == GridTileGeometry.GeneratorStartPoint))
-            {
-                xStartPos = i % roomData.width;
-                break;
-            }
+            xStartPos = startPos.x;
         }
 
         Vector2Int zeroPos = new Vector2Int(lastConnPoint.x - xStartPos, lastConnPoint.y + 1);
-        //Debug.Log($"xStartPos {xStartPos}, lastConnPoint.x {lastConnPoint.x}, zeroPos.x {zeroPos.x}");
         int totalRoomArea = roomData.width * roomData.height;
+
+        // set to grid
         for (int i = 0; i < totalRoomArea; i++)
         {
             GridTileGeometry tileType = roomData.geometryData[i];
@@ -67,13 +65,9 @@ public class LevelGenerator
         }
 
         // find the exit point tile and set the connpoint for next iteration
-        for (int i = 0; i < roomData.geometryData.Length; i++)
+        if(roomData.TryGetGeneratorEndPoint(out Vector2Int endPos))
         {
-            if ((roomData.geometryData[i] == GridTileGeometry.GeneratorEndPoint))
-            {
-                lastConnPoint = new Vector2Int(i % roomData.width + zeroPos.x, roomData.height + lastConnPoint.y);
-                break;
-            }
+            lastConnPoint = new Vector2Int(endPos.x + zeroPos.x, endPos.y + lastConnPoint.y);
         }
 
     }
@@ -83,7 +77,7 @@ public class LevelGenerator
         int rnd = 0;
         while(settings.rooms.Length > 1 && rnd == lastRoomIndex)
         {
-            rnd = Random.Range(0, settings.rooms.Length);
+            rnd = UnityEngine.Random.Range(0, settings.rooms.Length);
         }
 
         lastRoomIndex = rnd;
