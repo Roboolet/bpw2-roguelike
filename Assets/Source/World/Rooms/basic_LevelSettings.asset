@@ -20,6 +20,3 @@ MonoBehaviour:
   lastRoom: {fileID: -4308797634310661335, guid: 04b79ceb73ec9334d9a602b7eebc31cf, type: 3}
   rooms:
   - {fileID: -4308797634310661335, guid: 04b79ceb73ec9334d9a602b7eebc31cf, type: 3}
-  - {fileID: 2708545356820798215, guid: f3fbaa4fe65875148a77a13633258feb, type: 3}
-  - {fileID: -3703639681261723745, guid: dec6f3b3707718e49ae38edd34c4aad5, type: 3}
-  - {fileID: -3714528017188170550, guid: 99f6bbb9cd0204a438b8f6f2d212d4b1, type: 3}

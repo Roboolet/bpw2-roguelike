@@ -34,7 +34,7 @@ namespace TmxImporter
 
                 // in the tiled editor, the bottom-most layer is layer 0
                 level.geometryData = ConvertLayerToEnumArray<GridTileGeometry>(map.Layer[0]);
-                if(map.Layer.Count > 1) level.spawnsData = ConvertLayerToEnumArray<GridTileSpawns>(map.Layer[1]);
+                if (map.Layer.Count > 1) level.spawnsData = ConvertLayerToEnumArray<GridTileSpawns>(map.Layer[1]);
                 if (map.Layer.Count > 2) level.backgroundData = ConvertLayerToEnumArray<GridTileBackground>(map.Layer[2]);
 
                 // finalize

@@ -20,7 +20,7 @@ public class LevelData : ScriptableObject
         {
             if (geometryData[i] == GridTileGeometry.GeneratorEndPoint)
             {
-                roomPosition = new Vector2Int(i % width, Mathf.FloorToInt(i / width));
+                roomPosition = new Vector2Int(i % width, height - Mathf.FloorToInt(i / width));
                 return true;
             }
         }
@@ -36,7 +36,7 @@ public class LevelData : ScriptableObject
         {
             if (geometryData[i] == GridTileGeometry.GeneratorStartPoint)
             {
-                roomPosition = new Vector2Int(i % width, Mathf.FloorToInt(i / width));
+                roomPosition = new Vector2Int(i % width, height - Mathf.FloorToInt(i / width));
                 return true;
             }
         }
