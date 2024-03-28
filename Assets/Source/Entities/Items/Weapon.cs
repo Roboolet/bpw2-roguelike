@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class Weapon : Item
 {
+    public int onUseActionCooldown;
     public WeaponAttackData[] attackData;
 
     [System.Serializable]

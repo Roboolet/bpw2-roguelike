@@ -7,7 +7,7 @@ public class EntityManager : MonoBehaviour
 {
     public PlayerEntity playerEntityReference;
     public List<GridEntity> entities = new List<GridEntity>();
-    Dictionary<GridEntity, TurnAction> activeTurnActions = new Dictionary<GridEntity, TurnAction>();
+    List<TurnAction> activeTurnActions = new List<TurnAction>();
     int currentTurn;
 
     public Action OnTimeAdvanced;
@@ -34,72 +34,64 @@ public class EntityManager : MonoBehaviour
 
     public void EndTurn()
     {
-        List<TurnAction> actionsThisTurn = new List<TurnAction>();
         for (int i = 0; i < entities.Count; i++)
         {
             GridEntity e = entities[i];
 
-            // get all active turn actions from all entities
-            if (!activeTurnActions.ContainsKey(e))
-            {
-                activeTurnActions.Add(e, e.EvaluateNextAction(currentTurn));
-            }
+            // get all turn actions from all entities
+            activeTurnActions.Add(e.EvaluateNextAction(currentTurn));
 
-            // sort the actions into ordered from smallest to biggest priority
-            if (activeTurnActions.TryGetValue(e, out TurnAction action))
-            {
-                actionsThisTurn.Add(action);
-            }
         }
-        actionsThisTurn.Sort(new TurnActionSorter());
+
+        // sort using priority (lowest to highest)
+        activeTurnActions.Sort(new TurnActionSorter());
 
         // execute actions for this turn in order, remove if cooldown is over
-        foreach(TurnAction action in actionsThisTurn)
+        for (int index = 0; index < activeTurnActions.Count; index++)
         {
-            switch (action.type)
+            TurnAction action = activeTurnActions[index];
+
+            // execute movement
+            if (action.enableMove)
             {
+                if (action.move.executionTurn <= currentTurn)
+                {
+                    action.caster.gridPosition = action.move.gridPosition;
+                }
+                // show intent
+                else
+                {
 
-                default: // do nothing
-                    break;
-
-                case TurnActionType.Move:
-                    // execute movement
-                    if (action.executionTurn <= currentTurn)
-                    {
-                        action.caster.gridPosition = action.caster.gridPosition + action.values[0];
-                    }
-                    // show intent
-                    else
-                    {
-
-                    }
-                    break;
-
-                case TurnActionType.Attack:
-                    // execute attack
-                    if (action.executionTurn <= currentTurn)
-                    {
-
-                    }
-                    // show intent
-                    else
-                    {
-
-                    }
-                    break;
+                }
             }
 
+            // execute attacks
+            if (action.enableAttack)
+            {
+                for (int i = 0; i < action.attacks.Length; i++)
+                {
+                    TurnAction.TurnActionAttack attack = action.attacks[i];
+                    if (attack.executionTurn <= currentTurn)
+                    {
+
+                    }
+                    // show intent
+                    else
+                    {
+
+                    }
+                }
+            }
+            
             // delete from active actions when used up
-            if(action.executionTurn + action.cooldown <= currentTurn)
+            if (action.deletionTimestamp <= currentTurn)
             {
-                activeTurnActions.Remove(action.caster);
+                activeTurnActions.Remove(action);
             }
+        }        
 
-            currentTurn++;
-        }
-
+        currentTurn++;
         OnTimeAdvanced?.Invoke();
-        
         DrawEntities();
     }
 

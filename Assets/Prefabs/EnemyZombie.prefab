@@ -97,9 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d575c2eb2fbe74d8f44e6e981e60b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityManager: {fileID: 0}
   selectedEntityActionPreset: 0
   gridPosition: {x: -5, y: 5}
-  entityManager: {fileID: 0}
   weapon: {fileID: 11400000, guid: f3b678a58da774d4b8fd59fb05f98dfd, type: 2}
   health: 2
   canFly: 0
