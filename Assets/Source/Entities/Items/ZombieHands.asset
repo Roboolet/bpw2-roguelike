@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: ZombieHands
   m_EditorClassIdentifier: 
   rarity: 0
+  onUseActionCooldown: 0
   attackData:
   - offsetFromUser: {x: 1, y: 0}
     damage: 1
-    startupDelay: 1
+    startupDelay: 0

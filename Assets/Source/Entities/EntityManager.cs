@@ -54,7 +54,7 @@ public class EntityManager : MonoBehaviour
             // execute movement
             if (action.enableMove)
             {
-                if (action.move.executionTurn <= currentTurn)
+                if (action.move.executionTurn <= currentTurn && !TryGetEntityAtGridPosition(action.move.gridPosition, out GridEntity target))
                 {
                     action.caster.gridPosition = action.move.gridPosition;
                 }
@@ -71,9 +71,10 @@ public class EntityManager : MonoBehaviour
                 for (int i = 0; i < action.attacks.Length; i++)
                 {
                     TurnAction.TurnActionAttack attack = action.attacks[i];
-                    if (attack.executionTurn <= currentTurn)
+                    if (attack.executionTurn <= currentTurn && TryGetEntityAtGridPosition(attack.gridPosition, out GridEntity attackTarget))
                     {
-
+                        attackTarget.TakeDamage(attack.damage);
+                        Debug.Log($"{action.caster.name} attacked {attackTarget.name} for {attack.damage} damage");
                     }
                     // show intent
                     else
@@ -107,6 +108,22 @@ public class EntityManager : MonoBehaviour
 
             entity.transform.position = screenPos;
         }
+    }
+
+    public bool TryGetEntityAtGridPosition(Vector2Int pos, out GridEntity entity)
+    {
+        entity = null;
+        for(int i = 0; i < entities.Count; i++)
+        {
+            GridEntity e = entities[i];
+            if(e.gridPosition == pos)
+            {
+                entity = e;
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

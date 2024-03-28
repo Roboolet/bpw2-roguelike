@@ -12,7 +12,7 @@ public abstract class GridEntity : MonoBehaviour
     public Weapon weapon;
 
     [Header("Stats")]
-    public int health;
+    [SerializeField] protected int health;
 
     [Header("Entity Properties")]
     public bool canFly;
@@ -129,6 +129,12 @@ public abstract class GridEntity : MonoBehaviour
     public virtual void OnDeath()
     {
         // drop loot
+    }
+
+    public virtual void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health < 0) OnDeath();
     }
     
     protected struct AdjacentTiles
