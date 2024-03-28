@@ -103,7 +103,7 @@ public abstract class GridEntity : MonoBehaviour
 
     protected virtual TurnAction EvaluateNonPresetAction(int turnNumber)
     {
-        return TurnAction.CreateIdleAction(this, turnNumber);
+        return TurnAction.CreateIdleAction(this);
     }
 
     public virtual void OnDeath()
@@ -133,32 +133,65 @@ public abstract class GridEntity : MonoBehaviour
 public struct TurnAction
 {
     public int priority;            // lower priority is executed first
-    public int executionTurn;       // the turn when this action should be executed
     public int cooldown;            // how many turns to wait before being able to do another action
     public TurnActionType type;
-    public Vector2Int[] values;
+    public TurnActionValue[] values;
     public GridEntity caster;
 
-    public static TurnAction CreateMoveAction(GridEntity caster, Vector2Int positionOffset, int untilTurn, int priority = 0)
+    public static TurnAction CreateMoveAction(GridEntity caster, Vector2Int positionOffset, int waitUntilTurn, int priority = 0)
     {
         TurnAction newAction = new TurnAction();
         newAction.type = TurnActionType.Move;
         newAction.priority = priority;
         newAction.caster = caster;
-        newAction.executionTurn = untilTurn;
-        newAction.values = new Vector2Int[1] { positionOffset };
+        newAction.values = new TurnActionValue[1] { new TurnActionValue(caster.gridPosition + positionOffset, waitUntilTurn)};
 
         return newAction;
     }
 
-    public static TurnAction CreateIdleAction(GridEntity caster, int untilTurn)
+    public static TurnAction CreateIdleAction(GridEntity caster)
     {
         TurnAction newAction = new TurnAction();
         newAction.type = TurnActionType.Idle;
-        newAction.executionTurn = untilTurn;
         newAction.caster = caster;
 
         return newAction;
+    }
+
+    public static TurnAction CreateAttackAction(GridEntity caster, int waitUntilTurn, bool mirrorX, bool mirrorY, int priority = 0)
+    {
+        TurnAction newAction = new TurnAction();
+        newAction.type = TurnActionType.Attack;
+        newAction.caster = caster;
+        newAction.cooldown = waitUntilTurn;
+        newAction.priority = priority;
+
+        List<TurnActionValue> attackPoints = new List<TurnActionValue>();
+        for(int i = 0; i < caster.weapon.attackData.Length; i++)
+        {
+            Weapon.WeaponAttackData data = caster.weapon.attackData[i];
+            Vector2Int pos = new Vector2Int(data.offsetFromUser.x * (mirrorX ? -1 : 1), data.offsetFromUser.y * (mirrorY ? -1 : 1));
+
+            TurnActionValue value = new TurnActionValue(caster.gridPosition + pos, waitUntilTurn + data.startupDelay, data.damage);
+            attackPoints.Add(value);
+        }
+        newAction.values = attackPoints.ToArray();
+
+        return newAction;
+    }
+}
+
+public struct TurnActionValue
+{
+    public Vector2Int gridPosition;
+    public int executionTurn; // the turn when this action should be executed
+    public int value; // used for damage
+
+    public TurnActionValue(Vector2Int gridPosition, int executionTurn, int value = 0)
+    {
+        this.gridPosition = gridPosition;
+        this.executionTurn = executionTurn;
+        this.value = value;
     }
 }
 
