@@ -100,7 +100,8 @@ MonoBehaviour:
   selectedEntityActionPreset: 0
   gridPosition: {x: 0, y: 6}
   entityManager: {fileID: 0}
-  health: 1
+  weapon: {fileID: 11400000, guid: 9223a72ca80acad45bd60f62540dd5da, type: 2}
+  health: 5
   canFly: 0
   baseTurnDelay: 0
   basePriority: 0
