@@ -195,7 +195,7 @@ public static class GridTileTypeHelper
 
     public static bool IsTileSolid(GridTileGeometry type)
     {
-        return (type == GridTileGeometry.Wall);
+        return (type == GridTileGeometry.Wall || type == GridTileGeometry.StairLeft || type == GridTileGeometry.StairRight);
     }
 
 }

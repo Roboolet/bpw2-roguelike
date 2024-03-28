@@ -17,7 +17,7 @@ public class EnemyZombie : GridEntity
         {
             if(playerPos == gridPosition + Vector2Int.left)
             {
-                // attack
+                selectedEntityActionPreset = EntityActionPreset.AttackLeft;
             }
             else
             {
@@ -28,7 +28,7 @@ public class EnemyZombie : GridEntity
         {
             if (playerPos == gridPosition + Vector2Int.right)
             {
-                // attack
+                selectedEntityActionPreset = EntityActionPreset.AttackRight;
             }
             else
             {

@@ -41,22 +41,13 @@ public abstract class GridEntity : MonoBehaviour
 
         BeforeEvaluation(turnNumber);
 
-        // you cannot walk into walls, set preset to none/idle
-        if ((selectedEntityActionPreset == EntityActionPreset.MoveDown && GridTileTypeHelper.IsTileSolid(adjacentTiles.under)) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveUp && GridTileTypeHelper.IsTileSolid(adjacentTiles.above)) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileSolid(adjacentTiles.left)) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileSolid(adjacentTiles.right)))
-        {
-            selectedEntityActionPreset = EntityActionPreset.None;
-        }
-
         // walk up stairs
         // this does not account for having a wall directly above a stair... surely that will never happen
-        else if(selectedEntityActionPreset == EntityActionPreset.MoveLeft && adjacentTiles.left == GridTileGeometry.StairLeft)
+        if (selectedEntityActionPreset == EntityActionPreset.MoveLeft && adjacentTiles.left == GridTileGeometry.StairLeft)
         {
             selectedEntityActionPreset = EntityActionPreset.MoveUpLeft;
         }
-        else if(selectedEntityActionPreset == EntityActionPreset.MoveRight && adjacentTiles.right == GridTileGeometry.StairRight)
+        else if (selectedEntityActionPreset == EntityActionPreset.MoveRight && adjacentTiles.right == GridTileGeometry.StairRight)
         {
             selectedEntityActionPreset = EntityActionPreset.MoveUpRight;
         }
@@ -67,6 +58,15 @@ public abstract class GridEntity : MonoBehaviour
         else if (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileEmpty(adjacentTiles.rightUnder))
         {
             selectedEntityActionPreset = EntityActionPreset.MoveDownRight;
+        }
+
+        // you cannot walk into walls, set preset to none/idle
+        if ((selectedEntityActionPreset == EntityActionPreset.MoveDown && GridTileTypeHelper.IsTileSolid(adjacentTiles.under)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveUp && GridTileTypeHelper.IsTileSolid(adjacentTiles.above)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileSolid(adjacentTiles.left)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileSolid(adjacentTiles.right)))
+        {
+            selectedEntityActionPreset = EntityActionPreset.None;
         }
 
         if (!canFly)
