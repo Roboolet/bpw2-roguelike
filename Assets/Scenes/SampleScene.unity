@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c513d04b018bb0d40ae0edb3667408f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
+  debugMode: 0
   levelSettings: {fileID: 11400000, guid: 6b2c11bf9a7567742b24c760fdd98526, type: 2}
   visibleTilesOnScreen: {x: 40, y: 40}
 --- !u!4 &116316406
@@ -496,7 +496,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &845445991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -676,6 +676,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5340583749482273687, guid: 32b8a1d6b6f568343825a174f4d18ba0, type: 3}
+      propertyPath: eventSystem
+      value: 
+      objectReference: {fileID: 177321426}
     - target: {fileID: 6259696238719088780, guid: 32b8a1d6b6f568343825a174f4d18ba0, type: 3}
       propertyPath: m_Name
       value: Player
