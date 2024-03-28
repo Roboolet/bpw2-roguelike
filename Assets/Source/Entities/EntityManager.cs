@@ -47,7 +47,7 @@ public class EntityManager : MonoBehaviour
         activeTurnActions.Sort(new TurnActionSorter());
 
         // execute actions for this turn in order, remove if cooldown is over
-        for (int index = 0; index < activeTurnActions.Count; index++)
+        for (int index = activeTurnActions.Count - 1; index >= 0; index--)
         {
             TurnAction action = activeTurnActions[index];
 
@@ -86,7 +86,7 @@ public class EntityManager : MonoBehaviour
             // delete from active actions when used up
             if (action.deletionTimestamp <= currentTurn)
             {
-                activeTurnActions.Remove(action);
+                activeTurnActions.RemoveAt(index);
             }
         }        
 

@@ -103,5 +103,5 @@ MonoBehaviour:
   weapon: {fileID: 11400000, guid: f3b678a58da774d4b8fd59fb05f98dfd, type: 2}
   health: 2
   canFly: 0
-  baseTurnDelay: 2
+  baseTurnCooldown: 1
   basePriority: 1

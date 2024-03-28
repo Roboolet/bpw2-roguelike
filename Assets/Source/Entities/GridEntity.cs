@@ -16,7 +16,6 @@ public abstract class GridEntity : MonoBehaviour
 
     [Header("Entity Properties")]
     public bool canFly;
-    public int baseTurnDelay;
     public int basePriority;
 
     protected AdjacentTiles adjacentTiles;
@@ -81,44 +80,43 @@ public abstract class GridEntity : MonoBehaviour
 
         }
 
-        int waitUntilTurn = turnNumber + baseTurnDelay;
         // create the move action
         switch (selectedEntityActionPreset)
         {
             default: return EvaluateNonPresetAction(turnNumber);
 
             case EntityActionPreset.MoveUp:
-                return TurnAction.CreateMoveAction(this, Vector2Int.up, waitUntilTurn, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.up, turnNumber, basePriority);
             case EntityActionPreset.MoveLeft:
-                return TurnAction.CreateMoveAction(this, Vector2Int.left, waitUntilTurn, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.left, turnNumber, basePriority);
             case EntityActionPreset.MoveDown:
-                return TurnAction.CreateMoveAction(this, Vector2Int.down, waitUntilTurn, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.down, turnNumber, basePriority);
             case EntityActionPreset.MoveRight:
-                return TurnAction.CreateMoveAction(this, Vector2Int.right, waitUntilTurn, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.right, turnNumber, basePriority);
 
             // diagonal movement
             case EntityActionPreset.MoveUpLeft:
-                return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.up, waitUntilTurn, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.up, turnNumber, basePriority);
             case EntityActionPreset.MoveUpRight:
-                return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.up, waitUntilTurn, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.up, turnNumber, basePriority);
             case EntityActionPreset.MoveDownLeft:
-                return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.down, waitUntilTurn, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.down, turnNumber, basePriority);
             case EntityActionPreset.MoveDownRight:
-                return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.down, waitUntilTurn, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.down, turnNumber, basePriority);
 
             // attacks
             case EntityActionPreset.AttackRight:
                 cooldownTurns = weapon.onUseActionCooldown;
-                return TurnAction.CreateAttackAction(this, waitUntilTurn, false, false, basePriority);
+                return TurnAction.CreateAttackAction(this, turnNumber, false, false, basePriority);
             case EntityActionPreset.AttackLeft:
                 cooldownTurns = weapon.onUseActionCooldown;
-                return TurnAction.CreateAttackAction(this, waitUntilTurn, true, false, basePriority);
+                return TurnAction.CreateAttackAction(this, turnNumber, true, false, basePriority);
             case EntityActionPreset.AttackUp:
                 cooldownTurns = weapon.onUseActionCooldown;
-                return TurnAction.CreateAttackAction(this, waitUntilTurn, false, true, basePriority);
+                return TurnAction.CreateAttackAction(this, turnNumber, false, true, basePriority);
             case EntityActionPreset.AttackDown:
                 cooldownTurns = weapon.onUseActionCooldown;
-                return TurnAction.CreateAttackAction(this, waitUntilTurn, true, true, basePriority);
+                return TurnAction.CreateAttackAction(this, turnNumber, true, true, basePriority);
 
         }
     }
@@ -152,6 +150,7 @@ public abstract class GridEntity : MonoBehaviour
     }
 }
 
+[System.Serializable]
 public struct TurnAction
 {
     public int priority;            // lower priority is executed first
@@ -161,12 +160,12 @@ public struct TurnAction
     public bool enableMove, enableAttack;
     public GridEntity caster;
 
-    public static TurnAction CreateMoveAction(GridEntity caster, Vector2Int positionOffset, int waitUntilTurn, int priority = 0)
+    public static TurnAction CreateMoveAction(GridEntity caster, Vector2Int positionOffset, int turnNumber, int priority = 0)
     {
         TurnAction newAction = new TurnAction();
         newAction.priority = priority;
         newAction.caster = caster;
-        newAction.move = new TurnActionMove(caster.gridPosition + positionOffset, waitUntilTurn);
+        newAction.move = new TurnActionMove(caster.gridPosition + positionOffset, turnNumber);
         newAction.enableMove = true;
 
         return newAction;
@@ -180,7 +179,7 @@ public struct TurnAction
         return newAction;
     }
 
-    public static TurnAction CreateAttackAction(GridEntity caster, int waitUntilTurn, bool mirror, bool swizzle, int priority = 0)
+    public static TurnAction CreateAttackAction(GridEntity caster, int turnNumber, bool mirror, bool swizzle, int priority = 0)
     {
         TurnAction newAction = new TurnAction();
         newAction.caster = caster;
@@ -201,7 +200,7 @@ public struct TurnAction
                 pos.y *= -1; 
             }
 
-            TurnActionAttack attack = new TurnActionAttack(caster.gridPosition + pos, waitUntilTurn + data.startupDelay, data.damage);
+            TurnActionAttack attack = new TurnActionAttack(caster.gridPosition + pos, turnNumber + data.startupDelay, data.damage);
             attackPoints.Add(attack);
         }
         newAction.attacks = attackPoints.ToArray();
@@ -220,9 +219,10 @@ public struct TurnAction
             if (t > highest) highest = t;
         }
 
-        deletionTimestamp = highest+1;
+        deletionTimestamp = highest;
     }
 
+    [System.Serializable]
     public struct TurnActionAttack
     {
         public Vector2Int gridPosition;
@@ -236,6 +236,8 @@ public struct TurnAction
             this.damage = damage;
         }
     }
+
+    [System.Serializable]
     public struct TurnActionMove
     {
         public Vector2Int gridPosition;
