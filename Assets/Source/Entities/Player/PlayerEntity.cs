@@ -10,7 +10,7 @@ public class PlayerEntity : GridEntity
     [Header("Player-specific settings")]
     [SerializeField] EventSystem eventSystem;
     [HideInInspector] public AimDirection pointerDirection;
-    public bool attackMode;
+    public bool attackMode { get; set; }
 
     private void Awake()
     {
