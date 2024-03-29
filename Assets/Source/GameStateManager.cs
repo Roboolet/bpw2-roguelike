@@ -20,9 +20,9 @@ public class GameStateManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        }
 
-        ChangeGameState(startingGameState);
+            ChangeGameState(startingGameState);
+        }
     }
 
     public void ChangeGameState(GameState state)
@@ -39,9 +39,17 @@ public class GameStateManager : MonoBehaviour
                 break;
             case GameState.GameOver: 
                 break;
-            case GameState.Victory: 
+            case GameState.Victory:
+                if (SceneManager.GetActiveScene().buildIndex != sceneVictory)
+                {
+                    SceneManager.LoadSceneAsync(sceneVictory);
+                }
                 break;
-            case GameState.MainMenu: 
+            case GameState.MainMenu:
+                if (SceneManager.GetActiveScene().buildIndex != sceneMenu)
+                {
+                    SceneManager.LoadSceneAsync(sceneMenu);
+                }
                 break;
         }
 

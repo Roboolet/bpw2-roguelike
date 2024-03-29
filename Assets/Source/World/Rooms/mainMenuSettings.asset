@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ead84dff333b544a16823e9647d8f4, type: 3}
+  m_Name: mainMenuSettings
+  m_EditorClassIdentifier: 
+  width: 30
+  height: 161
+  numberOfRooms: 10
+  tileset: {fileID: 11400000, guid: 8df158a3ac3065c439e3bae3f6f99fb6, type: 2}
+  firstRoom: {fileID: 349054850098870169, guid: db49837c5940eab42b5f067970e944a4, type: 3}
+  lastRoom: {fileID: -4308797634310661335, guid: 04b79ceb73ec9334d9a602b7eebc31cf, type: 3}
+  rooms:
+  - {fileID: -4308797634310661335, guid: 04b79ceb73ec9334d9a602b7eebc31cf, type: 3}
