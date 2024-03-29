@@ -5,8 +5,15 @@ using System;
 
 public class EntityManager : MonoBehaviour
 {
+    [Header("Entities")]
     public PlayerEntity playerEntityReference;
     public List<GridEntity> entities = new List<GridEntity>();
+    [Header("Action Indicators")]
+    public GameObject actionIndicatorTemplate;
+    public int actionIndicatorPoolSize;
+    EntityActionIndicator[] actionIndicators;
+    int lastUsedActionIndicator;
+
     List<TurnAction> activeTurnActions = new List<TurnAction>();
     int currentTurn;
 
@@ -18,6 +25,12 @@ public class EntityManager : MonoBehaviour
         for(int i = 0; i < entities.Count; i++)
         {
             entities[i].entityManager = this;
+        }
+
+        actionIndicators = new EntityActionIndicator[actionIndicatorPoolSize];
+        for (int i = 0; i < actionIndicatorPoolSize; i++)
+        {
+            actionIndicators[i] = Instantiate(actionIndicatorTemplate).GetComponent<EntityActionIndicator>();
         }
 
         gameGrid = GameGrid.instance;
@@ -61,7 +74,7 @@ public class EntityManager : MonoBehaviour
                 // show intent
                 else
                 {
-
+                    ActivateActionIndicator(action.move.gridPosition, EntityActionIndicator.ActionType.Move);
                 }
             }
 
@@ -79,7 +92,7 @@ public class EntityManager : MonoBehaviour
                     // show intent
                     else
                     {
-
+                        ActivateActionIndicator(attack.gridPosition, EntityActionIndicator.ActionType.Attack);
                     }
                 }
             }
@@ -107,6 +120,22 @@ public class EntityManager : MonoBehaviour
             Vector2 screenPos = gameGrid.GetSpriteGridElementAtGridPosition(entity.gridPosition).transform.position;
 
             entity.transform.position = screenPos;
+        }
+    }
+
+    void ActivateActionIndicator(Vector2Int gridPosition, EntityActionIndicator.ActionType type)
+    {
+        Vector2 screenPos = gameGrid.GetSpriteGridElementAtGridPosition(gridPosition).transform.position;
+        actionIndicators[lastUsedActionIndicator].SetIndicator(screenPos, type);
+
+        lastUsedActionIndicator = (lastUsedActionIndicator + 1) % actionIndicators.Length;
+    }
+
+    void ResetAllActionIndicators()
+    {
+        for (int i = 0; i < actionIndicators.Length; i++)
+        {
+            actionIndicators[i].ResetIndicator();
         }
     }
 
