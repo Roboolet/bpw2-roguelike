@@ -1988,8 +1988,6 @@ MonoBehaviour:
   playerEntityReference: {fileID: 548471047}
   entities:
   - {fileID: 548471047}
-  - {fileID: 0}
-  - {fileID: 0}
   actionIndicatorTemplate: {fileID: 6116805331713142357, guid: 84af924e4cc421348a6da6bf6d12d7d3, type: 3}
   actionIndicatorPoolSize: 60
   actionIndicatorParent: {fileID: 1224357535}
