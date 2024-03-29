@@ -6,7 +6,7 @@ public class EntityActionIndicator : MonoBehaviour
 {
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Vector2 offset;
-    [SerializeField] Sprite attack, move;
+    [SerializeField] Sprite attack, attackWarning, move;
 
     public void SetIndicator(Vector2 worldPosition, ActionType type)
     {
@@ -22,6 +22,10 @@ public class EntityActionIndicator : MonoBehaviour
             case ActionType.Attack: 
                 spriteRenderer.sprite = attack; 
                 break;
+
+            case ActionType.AttackWarning:
+                spriteRenderer.sprite = attackWarning;
+                break;
         }
     }
 
@@ -32,7 +36,7 @@ public class EntityActionIndicator : MonoBehaviour
 
     public enum ActionType
     {
-        Generic, Move, Attack
+        Generic, Move, Attack, AttackWarning
     }
 }
 

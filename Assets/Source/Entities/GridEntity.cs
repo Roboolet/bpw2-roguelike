@@ -9,12 +9,11 @@ public abstract class GridEntity : MonoBehaviour
     public EntityActionPreset selectedEntityActionPreset;
     public Vector2Int gridPosition;
     [Header("Equipment")]
-    public Weapon weapon;
-
-    [Header("Stats")]
-    [SerializeField] protected int health;
+    public Weapon weapon;    
 
     [Header("Entity Properties")]
+    [SerializeField] protected int health;
+    [SerializeField] protected int beforeMoveDelay;
     public bool canFly;
     public int basePriority;
 
@@ -36,6 +35,7 @@ public abstract class GridEntity : MonoBehaviour
             cooldownTurns--;
             return TurnAction.CreateIdleAction(this);
         }
+        bool moveIsForced = false;
 
         adjacentTiles = new AdjacentTiles(GameGrid.instance, gridPosition);
 
@@ -76,33 +76,39 @@ public abstract class GridEntity : MonoBehaviour
             if (GridTileTypeHelper.IsTileEmpty(adjacentTiles.under) && !GridTileTypeHelper.IsTileClimbable(adjacentTiles.current))
             {
                 selectedEntityActionPreset = EntityActionPreset.MoveDown;
+                moveIsForced = true;
             }
 
         }
 
+        int executionTurn = turnNumber;
+        if (!moveIsForced)
+        {
+            executionTurn += beforeMoveDelay;
+        }
         // create the move action
         switch (selectedEntityActionPreset)
         {
             default: return EvaluateNonPresetAction(turnNumber);
 
             case EntityActionPreset.MoveUp:
-                return TurnAction.CreateMoveAction(this, Vector2Int.up, turnNumber, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.up, executionTurn, basePriority);
             case EntityActionPreset.MoveLeft:
-                return TurnAction.CreateMoveAction(this, Vector2Int.left, turnNumber, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.left, executionTurn, basePriority);
             case EntityActionPreset.MoveDown:
-                return TurnAction.CreateMoveAction(this, Vector2Int.down, turnNumber, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.down, executionTurn, basePriority);
             case EntityActionPreset.MoveRight:
-                return TurnAction.CreateMoveAction(this, Vector2Int.right, turnNumber, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.right, executionTurn, basePriority);
 
             // diagonal movement
             case EntityActionPreset.MoveUpLeft:
-                return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.up, turnNumber, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.up, executionTurn, basePriority);
             case EntityActionPreset.MoveUpRight:
-                return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.up, turnNumber, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.up, executionTurn, basePriority);
             case EntityActionPreset.MoveDownLeft:
-                return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.down, turnNumber, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.down, executionTurn, basePriority);
             case EntityActionPreset.MoveDownRight:
-                return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.down, turnNumber, basePriority);
+                return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.down, executionTurn, basePriority);
 
             // attacks
             case EntityActionPreset.AttackRight:
@@ -167,12 +173,12 @@ public struct TurnAction
     public bool enableMove, enableAttack;
     public GridEntity caster;
 
-    public static TurnAction CreateMoveAction(GridEntity caster, Vector2Int positionOffset, int turnNumber, int priority = 0)
+    public static TurnAction CreateMoveAction(GridEntity caster, Vector2Int positionOffset, int executionTurn, int priority = 0)
     {
         TurnAction newAction = new TurnAction();
         newAction.priority = priority;
         newAction.caster = caster;
-        newAction.move = new TurnActionMove(caster.gridPosition + positionOffset, turnNumber);
+        newAction.move = new TurnActionMove(caster.gridPosition + positionOffset, executionTurn);
         newAction.enableMove = true;
         newAction.CalculateDeletionTimestamp();
 
@@ -187,7 +193,7 @@ public struct TurnAction
         return newAction;
     }
 
-    public static TurnAction CreateAttackAction(GridEntity caster, int turnNumber, bool mirror, bool swizzle, int priority = 0)
+    public static TurnAction CreateAttackAction(GridEntity caster, int executionTurn, bool mirror, bool swizzle, int priority = 0)
     {
         TurnAction newAction = new TurnAction();
         newAction.caster = caster;
@@ -208,7 +214,7 @@ public struct TurnAction
                 pos.y *= -1; 
             }
 
-            TurnActionAttack attack = new TurnActionAttack(caster.gridPosition + pos, turnNumber + data.startupDelay, data.damage);
+            TurnActionAttack attack = new TurnActionAttack(caster.gridPosition + pos, executionTurn + data.startupDelay, data.damage);
             attackPoints.Add(attack);
         }
 

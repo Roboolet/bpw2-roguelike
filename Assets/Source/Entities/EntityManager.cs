@@ -76,7 +76,7 @@ public class EntityManager : MonoBehaviour
                     action.caster.gridPosition = action.move.gridPosition;
                 }
                 // show intent
-                else
+                else if(action.move.executionTurn == currentTurn+1)
                 {
                     nextTurnIndicators.Add(new ActionIndicatorData(action.move.gridPosition, EntityActionIndicator.ActionType.Move));
                 }
@@ -97,6 +97,10 @@ public class EntityManager : MonoBehaviour
                     else if(attack.executionTurn == currentTurn+1)
                     {
                         nextTurnIndicators.Add(new ActionIndicatorData(attack.gridPosition, EntityActionIndicator.ActionType.Attack));
+                    }
+                    else if(attack.executionTurn > currentTurn + 1)
+                    {
+                        nextTurnIndicators.Add(new ActionIndicatorData(attack.gridPosition, EntityActionIndicator.ActionType.AttackWarning));
                     }
                 }
             }

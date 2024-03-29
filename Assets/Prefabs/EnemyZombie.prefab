@@ -102,6 +102,6 @@ MonoBehaviour:
   gridPosition: {x: -5, y: 5}
   weapon: {fileID: 11400000, guid: f3b678a58da774d4b8fd59fb05f98dfd, type: 2}
   health: 2
+  beforeMoveDelay: 1
   canFly: 0
-  baseTurnCooldown: 1
   basePriority: 1
