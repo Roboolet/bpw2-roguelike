@@ -90,7 +90,6 @@ public class EntityManager : MonoBehaviour
                     TurnAction.TurnActionAttack attack = action.attacks[i];
                     if (attack.executionTurn == currentTurn && TryGetEntityAtGridPosition(attack.gridPosition, out GridEntity attackTarget))
                     {
-                        Debug.Log($"{action.caster.name} attacked {attackTarget.name} for {attack.damage} damage");
                         attackTarget.TakeDamage(attack.damage);
                     }
                     // show intent
