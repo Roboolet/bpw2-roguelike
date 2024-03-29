@@ -54,7 +54,7 @@ public class EntityManager : MonoBehaviour
             // execute movement
             if (action.enableMove)
             {
-                if (action.move.executionTurn <= currentTurn && !TryGetEntityAtGridPosition(action.move.gridPosition, out GridEntity target))
+                if (action.move.executionTurn == currentTurn && !TryGetEntityAtGridPosition(action.move.gridPosition, out GridEntity target))
                 {
                     action.caster.gridPosition = action.move.gridPosition;
                 }
@@ -71,7 +71,7 @@ public class EntityManager : MonoBehaviour
                 for (int i = 0; i < action.attacks.Length; i++)
                 {
                     TurnAction.TurnActionAttack attack = action.attacks[i];
-                    if (attack.executionTurn <= currentTurn && TryGetEntityAtGridPosition(attack.gridPosition, out GridEntity attackTarget))
+                    if (attack.executionTurn == currentTurn && TryGetEntityAtGridPosition(attack.gridPosition, out GridEntity attackTarget))
                     {
                         attackTarget.TakeDamage(attack.damage);
                         Debug.Log($"{action.caster.name} attacked {attackTarget.name} for {attack.damage} damage");
@@ -83,7 +83,7 @@ public class EntityManager : MonoBehaviour
                     }
                 }
             }
-            
+
             // delete from active actions when used up
             if (action.deletionTimestamp <= currentTurn)
             {
@@ -124,6 +124,19 @@ public class EntityManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void CancelActionsFromEntity(GridEntity entity)
+    {
+
+        for (int i = activeTurnActions.Count - 1; i >= 0; i--)
+        {
+            TurnAction action = activeTurnActions[i];
+            if (action.caster == entity)
+            {
+                activeTurnActions.RemoveAt(i);
+            }
+        }
     }
 
     public void KillEntity(GridEntity entity, bool triggerOnDeath = false)

@@ -47,6 +47,8 @@ public class GameStateManager : MonoBehaviour
 
         OnGameStateChange?.Invoke(state);
         CurrentGameState = state;
+
+        Debug.Log("Changed game state to " + state.ToString());
     }
 }
 public enum GameState

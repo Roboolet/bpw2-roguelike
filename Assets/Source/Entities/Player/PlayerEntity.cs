@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerEntity : GridEntity
 {
-    Camera camera;
+    Camera mainCamera;
     [Header("Player-specific settings")]
     [SerializeField] EventSystem eventSystem;
     [HideInInspector] public AimDirection pointerDirection;
@@ -14,7 +14,7 @@ public class PlayerEntity : GridEntity
 
     private void Awake()
     {
-        camera = Camera.main;
+        mainCamera = Camera.main;
     }
 
     // used for the input
@@ -24,7 +24,7 @@ public class PlayerEntity : GridEntity
         if (!eventSystem.IsPointerOverGameObject())
         {
             // calculate what direction you are aiming
-            Vector3 mousePos = camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector2 normalizedDistance = mousePos - transform.position;
 
             AimDirection highest = AimDirection.Right;

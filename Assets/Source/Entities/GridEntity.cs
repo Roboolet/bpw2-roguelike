@@ -128,6 +128,7 @@ public abstract class GridEntity : MonoBehaviour
 
     public virtual void OnDeath()
     {
+        entityManager.KillEntity(this);
         // drop loot
     }
 
@@ -173,6 +174,7 @@ public struct TurnAction
         newAction.caster = caster;
         newAction.move = new TurnActionMove(caster.gridPosition + positionOffset, turnNumber);
         newAction.enableMove = true;
+        newAction.CalculateDeletionTimestamp();
 
         return newAction;
     }
@@ -209,8 +211,10 @@ public struct TurnAction
             TurnActionAttack attack = new TurnActionAttack(caster.gridPosition + pos, turnNumber + data.startupDelay, data.damage);
             attackPoints.Add(attack);
         }
+
         newAction.attacks = attackPoints.ToArray();
         newAction.enableAttack = true;
+        newAction.CalculateDeletionTimestamp();
 
         return newAction;
     }
@@ -219,10 +223,13 @@ public struct TurnAction
     {
         int highest = move.executionTurn;
 
-        for(int i = 0; i < attacks.Length; i++)
+        if (attacks != null)
         {
-            int t = attacks[i].executionTurn;
-            if (t > highest) highest = t;
+            for (int i = 0; i < attacks.Length; i++)
+            {
+                int t = attacks[i].executionTurn;
+                if (t > highest) highest = t;
+            }
         }
 
         deletionTimestamp = highest;
