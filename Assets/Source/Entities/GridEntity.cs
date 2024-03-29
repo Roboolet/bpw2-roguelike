@@ -73,7 +73,10 @@ public abstract class GridEntity : MonoBehaviour
         {
             // if no floor underneath entity and not on ladder, force it to fall down
             // this step has to happen last so it can overwrite other moves
-            if (GridTileTypeHelper.IsTileEmpty(adjacentTiles.under) && !GridTileTypeHelper.IsTileClimbable(adjacentTiles.current))
+            // you can stand on other entities
+            if (GridTileTypeHelper.IsTileEmpty(adjacentTiles.under) 
+                && !GridTileTypeHelper.IsTileClimbable(adjacentTiles.current)
+                && !entityManager.TryGetEntityAtGridPosition(gridPosition + Vector2Int.down, out GridEntity entity))
             {
                 selectedEntityActionPreset = EntityActionPreset.MoveDown;
                 moveIsForced = true;
