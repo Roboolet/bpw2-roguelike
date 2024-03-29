@@ -11,6 +11,7 @@ public class EntityManager : MonoBehaviour
     [Header("Action Indicators")]
     public GameObject actionIndicatorTemplate;
     public int actionIndicatorPoolSize;
+    public Transform actionIndicatorParent;
     EntityActionIndicator[] actionIndicators;
     int lastUsedActionIndicator;
 
@@ -30,7 +31,7 @@ public class EntityManager : MonoBehaviour
         actionIndicators = new EntityActionIndicator[actionIndicatorPoolSize];
         for (int i = 0; i < actionIndicatorPoolSize; i++)
         {
-            actionIndicators[i] = Instantiate(actionIndicatorTemplate).GetComponent<EntityActionIndicator>();
+            actionIndicators[i] = Instantiate(actionIndicatorTemplate, actionIndicatorParent).GetComponent<EntityActionIndicator>();
         }
 
         gameGrid = GameGrid.instance;
@@ -47,6 +48,8 @@ public class EntityManager : MonoBehaviour
 
     public void EndTurn()
     {
+        ResetAllActionIndicators();
+
         for (int i = 0; i < entities.Count; i++)
         {
             GridEntity e = entities[i];
@@ -127,6 +130,7 @@ public class EntityManager : MonoBehaviour
     {
         Vector2 screenPos = gameGrid.GetSpriteGridElementAtGridPosition(gridPosition).transform.position;
         actionIndicators[lastUsedActionIndicator].SetIndicator(screenPos, type);
+        Debug.Log(screenPos);
 
         lastUsedActionIndicator = (lastUsedActionIndicator + 1) % actionIndicators.Length;
     }
