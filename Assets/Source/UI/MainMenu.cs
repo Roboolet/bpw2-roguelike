@@ -5,10 +5,10 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     [Header("Background effect")]
-    [SerializeField] float spinSpeed, circleRadius;
-    [SerializeField] Vector2Int center;
-    [SerializeField] float tilePixelPerUnit;
     [SerializeField] GameGrid gameGrid;
+    [SerializeField] Vector2Int center;
+    [SerializeField] float spinSpeed, circleRadius;
+    [SerializeField] float tilePixelPerUnit;
     Camera cam;
 
     private void Start()
