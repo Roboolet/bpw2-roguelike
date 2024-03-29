@@ -116,6 +116,18 @@ public class GameGrid : MonoBehaviour
         }
     }
 
+    public EntitySpawnData[] GetAllEntitySpawns()
+    {
+        List<EntitySpawnData> entities = new List<EntitySpawnData>();
+        for (int i = 0; i < levelSettings.width * levelSettings.height; i++)
+        {
+            Vector2Int pos = new Vector2Int(i % levelSettings.width, levelSettings.height - Mathf.FloorToInt(i / levelSettings.width));
+            GridTileSpawns spawn = levelGenerator.Get(pos.x, pos.y).spawn;
+            entities.Add(new EntitySpawnData(pos, spawn));
+        }
+        return entities.ToArray();
+    }
+
     public GridTileGeometry GetGeometryAtGridPosition(Vector2Int gridPosition)
     {
         return levelGenerator.Get(gridPosition.x, gridPosition.y).geometry;

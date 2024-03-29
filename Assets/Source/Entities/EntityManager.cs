@@ -8,6 +8,9 @@ public class EntityManager : MonoBehaviour
     [Header("Entities")]
     public PlayerEntity playerEntityReference;
     public List<GridEntity> entities = new List<GridEntity>();
+    [SerializeField] EntitySpawnerDictionaryEntry[] spawnPrefabsInput;
+    Dictionary<GridTileSpawns, GameObject> spawnPrefabs = new Dictionary<GridTileSpawns, GameObject>();
+
     [Header("Action Indicators")]
     public GameObject actionIndicatorTemplate;
     public int actionIndicatorPoolSize;
@@ -34,8 +37,27 @@ public class EntityManager : MonoBehaviour
             actionIndicators[i] = Instantiate(actionIndicatorTemplate, actionIndicatorParent).GetComponent<EntityActionIndicator>();
         }
 
+        for (int i = 0; i < spawnPrefabsInput.Length; i++)
+        {
+            spawnPrefabs.Add(spawnPrefabsInput[i].type, spawnPrefabsInput[i].prefab);
+        }
+
         gameGrid = GameGrid.instance;
         gameGrid.OnCameraUpdated += DrawEntities;
+
+        // spawn enemies
+        EntitySpawnData[] spawns = gameGrid.GetAllEntitySpawns();
+        for(int i =0; i < spawns.Length; i++)
+        {
+            EntitySpawnData data = spawns[i];
+            if (spawnPrefabs.TryGetValue(data.type, out GameObject value))
+            {
+                GridEntity entity = Instantiate(value).GetComponent<GridEntity>();
+                entity.gridPosition = data.pos;
+                entities.Add(entity);
+            }
+        }
+
         OnTimeAdvanced += UpdateGameGridVisuals;
         OnTimeAdvanced?.Invoke();
     }
@@ -186,6 +208,25 @@ public class EntityManager : MonoBehaviour
         entities.Remove(entity);
         Destroy(entity.gameObject);
     }
+}
+
+public struct EntitySpawnData
+{
+    public GridTileSpawns type;
+    public Vector2Int pos;
+
+    public EntitySpawnData(Vector2Int position, GridTileSpawns spawn)
+    {
+        this.type = spawn;
+        this.pos = position;
+    }
+}
+
+[Serializable]
+public struct EntitySpawnerDictionaryEntry
+{
+    public GridTileSpawns type;
+    public GameObject prefab;
 }
 
 public class TurnActionSorter : IComparer<TurnAction>

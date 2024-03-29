@@ -9,9 +9,17 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/Rooms/basic1.tmx": {
+            "scale": 5.945416666666667,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 120.00840983951223,
+                "y": 64.16707547830961
+            }
+        },
         "C:/Users/Lea/Desktop/HKU/bpw/blok 3/bpw2-roguelike/Assets/Rooms/endingRoom.tmx": {
             "scale": 5.945416666666667,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
                 "x": 120.00840983951223,
                 "y": 100.16118859065107

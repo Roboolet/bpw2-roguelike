@@ -1988,6 +1988,13 @@ MonoBehaviour:
   playerEntityReference: {fileID: 548471047}
   entities:
   - {fileID: 548471047}
+  spawnPrefabsInput:
+  - type: 25
+    prefab: {fileID: 6130273181316418151, guid: b6dad7aa26f6df94e8b1bbe2916a0d1a, type: 3}
+  - type: 27
+    prefab: {fileID: 6130273181316418151, guid: d5e7d4715215fd94e95fd38954228c47, type: 3}
+  - type: 39
+    prefab: {fileID: 6255642539214252805, guid: f3e8d31b661c6754e9bc1bf2e4cdf2d1, type: 3}
   actionIndicatorTemplate: {fileID: 6116805331713142357, guid: 84af924e4cc421348a6da6bf6d12d7d3, type: 3}
   actionIndicatorPoolSize: 60
   actionIndicatorParent: {fileID: 1224357535}
