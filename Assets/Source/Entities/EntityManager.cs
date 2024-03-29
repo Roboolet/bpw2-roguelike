@@ -49,6 +49,7 @@ public class EntityManager : MonoBehaviour
     public void EndTurn()
     {
         ResetAllActionIndicators();
+        List<ActionIndicatorData> nextTurnIndicators = new List<ActionIndicatorData>();
 
         for (int i = 0; i < entities.Count; i++)
         {
@@ -77,7 +78,7 @@ public class EntityManager : MonoBehaviour
                 // show intent
                 else
                 {
-                    ActivateActionIndicator(action.move.gridPosition, EntityActionIndicator.ActionType.Move);
+                    nextTurnIndicators.Add(new ActionIndicatorData(action.move.gridPosition, EntityActionIndicator.ActionType.Move));
                 }
             }
 
@@ -93,9 +94,9 @@ public class EntityManager : MonoBehaviour
                         Debug.Log($"{action.caster.name} attacked {attackTarget.name} for {attack.damage} damage");
                     }
                     // show intent
-                    else
+                    else if(attack.executionTurn == currentTurn+1)
                     {
-                        ActivateActionIndicator(attack.gridPosition, EntityActionIndicator.ActionType.Attack);
+                        nextTurnIndicators.Add(new ActionIndicatorData(attack.gridPosition, EntityActionIndicator.ActionType.Attack));
                     }
                 }
             }
@@ -110,6 +111,7 @@ public class EntityManager : MonoBehaviour
         currentTurn++;
         OnTimeAdvanced?.Invoke();
         DrawEntities();
+        ActivateActionIndicators(nextTurnIndicators.ToArray());
     }
 
     /// <summary>
@@ -126,13 +128,16 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    void ActivateActionIndicator(Vector2Int gridPosition, EntityActionIndicator.ActionType type)
+    void ActivateActionIndicators(ActionIndicatorData[] indicators)
     {
-        Vector2 screenPos = gameGrid.GetSpriteGridElementAtGridPosition(gridPosition).transform.position;
-        actionIndicators[lastUsedActionIndicator].SetIndicator(screenPos, type);
-        Debug.Log(screenPos);
+        for (int i = 0; i < indicators.Length; i++)
+        {
+            ActionIndicatorData data = indicators[i];
+            Vector2 screenpos = gameGrid.GetSpriteGridElementAtGridPosition(data.gridPosition).transform.position;
+            actionIndicators[lastUsedActionIndicator].SetIndicator(screenpos, data.type);
 
-        lastUsedActionIndicator = (lastUsedActionIndicator + 1) % actionIndicators.Length;
+            lastUsedActionIndicator = (lastUsedActionIndicator + 1) % actionIndicators.Length;
+        }
     }
 
     void ResetAllActionIndicators()

@@ -88,7 +88,7 @@ public class LevelGenerator
 
     public GridTileData Get (Vector2Int pos) => Get(pos.x, pos.y);
     /// <summary>
-    /// Returns the tile at this position
+    /// Returns the tile at this worldPosition
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
@@ -100,7 +100,7 @@ public class LevelGenerator
     }
 
     /// <summary>
-    /// Places a specific tile at the position. Use ID 0 to remove.
+    /// Places a specific tile at the worldPosition. Use ID 0 to remove.
     /// </summary>
     /// <param name="data"></param>
     /// <param name="x"></param>

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 4474261375467572952}
+  offset: {x: 0, y: -0.5}
   attack: {fileID: -3318911858770298543, guid: 7134c77e80ed5254ba0c0d6e86a1b54e, type: 3}
   move: {fileID: -3318911858770298543, guid: 7134c77e80ed5254ba0c0d6e86a1b54e, type: 3}
 --- !u!212 &4474261375467572952

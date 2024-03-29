@@ -5,12 +5,13 @@ using UnityEngine;
 public class EntityActionIndicator : MonoBehaviour
 {
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Vector2 offset;
     [SerializeField] Sprite attack, move;
 
-    public void SetIndicator(Vector2 position, ActionType type)
+    public void SetIndicator(Vector2 worldPosition, ActionType type)
     {
         gameObject.SetActive(true);
-        transform.position = position;
+        transform.position = worldPosition + offset;
 
         switch (type)
         {
@@ -32,5 +33,17 @@ public class EntityActionIndicator : MonoBehaviour
     public enum ActionType
     {
         Generic, Move, Attack
+    }
+}
+
+public struct ActionIndicatorData
+{
+    public Vector2Int gridPosition;
+    public EntityActionIndicator.ActionType type;
+
+    public ActionIndicatorData(Vector2Int gridPosition, EntityActionIndicator.ActionType type)
+    {
+        this.gridPosition = gridPosition;
+        this.type = type;
     }
 }

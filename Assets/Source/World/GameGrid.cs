@@ -96,7 +96,7 @@ public class GameGrid : MonoBehaviour
     }
 
     /// <summary>
-    /// Redraw all tiles in view. Happens whenever the player position changes.
+    /// Redraw all tiles in view. Happens whenever the player worldPosition changes.
     /// </summary>
     public void DrawTiles()
     {
