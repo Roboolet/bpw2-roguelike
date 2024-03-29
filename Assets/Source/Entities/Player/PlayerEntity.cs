@@ -90,7 +90,8 @@ public class PlayerEntity : GridEntity
 
     public override void OnDeath()
     {
-        throw new System.NotImplementedException();
+        GameStateManager.instance.ChangeGameState(GameState.GameOver);
+        entityManager.KillEntity(this);
     }
 
     public enum AimDirection

@@ -126,6 +126,12 @@ public class EntityManager : MonoBehaviour
         return false;
     }
 
+    public void KillEntity(GridEntity entity, bool triggerOnDeath = false)
+    {
+        if(triggerOnDeath) { entity.OnDeath(); }
+        entities.Remove(entity);
+        Destroy(entity.gameObject);
+    }
 }
 
 public class TurnActionSorter : IComparer<TurnAction>
