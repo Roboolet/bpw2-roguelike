@@ -12,22 +12,22 @@ public class EnemyArcher : GridEntity
 
         if (playerPos.x < gridPosition.x)
         {
-            if (playerPos.x > gridPosition.x - shootRange)
+            if (playerPos.x >= gridPosition.x - shootRange)
             {
                 SetActionPreset(EntityActionPreset.AttackLeft);
             }
-            else if(!GridTileTypeHelper.IsTileEmpty(adjacentTiles.leftUnder))
+            else
             {
                 SetActionPreset(EntityActionPreset.MoveLeft);
             }
         }
         else if (playerPos.x > gridPosition.x)
         {
-            if (playerPos.x < gridPosition.x + shootRange)
+            if (playerPos.x <= gridPosition.x + shootRange)
             {
                 SetActionPreset(EntityActionPreset.AttackRight);
             }
-            else if (!GridTileTypeHelper.IsTileEmpty(adjacentTiles.rightUnder))
+            else
             {
                 SetActionPreset(EntityActionPreset.MoveRight);
             }

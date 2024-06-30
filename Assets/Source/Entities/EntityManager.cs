@@ -77,6 +77,9 @@ public class EntityManager : MonoBehaviour
         {
             GridEntity e = entities[i];
 
+            // reset position to prevent problems with looping
+            e.gridPosition = gameGrid.levelSettings.WrapPos(e.gridPosition.x, e.gridPosition.y);
+
             // get all turn actions from all entities
             activeTurnActions.Add(e.EvaluateNextAction(currentTurn));
 
