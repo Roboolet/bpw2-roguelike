@@ -11,28 +11,28 @@ public class EnemyZombie : GridEntity
 
         if(playerPos.y > gridPosition.y - 3 && GridTileTypeHelper.IsTileClimbable(adjacentTiles.current))
         {
-            selectedEntityActionPreset = EntityActionPreset.MoveUp;
+            SetActionPreset(EntityActionPreset.MoveUp);
         }
         else if (playerPos.x < gridPosition.x)
         {
             if(playerPos == gridPosition + Vector2Int.left)
             {
-                selectedEntityActionPreset = EntityActionPreset.AttackLeft;
+                SetActionPreset(EntityActionPreset.AttackLeft);
             }
             else
             {
-                selectedEntityActionPreset = EntityActionPreset.MoveLeft;
+                SetActionPreset(EntityActionPreset.MoveLeft);
             }
         }
         else if (playerPos.x > gridPosition.x)
         {
             if (playerPos == gridPosition + Vector2Int.right)
             {
-                selectedEntityActionPreset = EntityActionPreset.AttackRight;
+                SetActionPreset(EntityActionPreset.AttackRight);
             }
             else
             {
-                selectedEntityActionPreset = EntityActionPreset.MoveRight;
+                SetActionPreset(EntityActionPreset.MoveRight);
             }
         }
     }

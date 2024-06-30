@@ -6,7 +6,8 @@ public abstract class GridEntity : MonoBehaviour
 {
     [HideInInspector] public EntityManager entityManager;
 
-    public EntityActionPreset selectedEntityActionPreset;
+    EntityActionPreset selectedEntityActionPreset;
+    bool moveIsForced = false;
     public Vector2Int gridPosition;
     [Header("Equipment")]
     public Weapon weapon;    
@@ -35,54 +36,7 @@ public abstract class GridEntity : MonoBehaviour
             cooldownTurns--;
             return TurnAction.CreateIdleAction(this);
         }
-        bool moveIsForced = false;
-
-        adjacentTiles = new AdjacentTiles(GameGrid.instance, gridPosition);
-
-        BeforeEvaluation(turnNumber);
-
-        // walk up stairs
-        // this does not account for having a wall directly above a stair... surely that will never happen
-        if (selectedEntityActionPreset == EntityActionPreset.MoveLeft && adjacentTiles.left == GridTileGeometry.StairLeft)
-        {
-            selectedEntityActionPreset = EntityActionPreset.MoveUpLeft;
-        }
-        else if (selectedEntityActionPreset == EntityActionPreset.MoveRight && adjacentTiles.right == GridTileGeometry.StairRight)
-        {
-            selectedEntityActionPreset = EntityActionPreset.MoveUpRight;
-        }
-        else if (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileEmpty(adjacentTiles.leftUnder))
-        {
-            selectedEntityActionPreset = EntityActionPreset.MoveDownLeft;
-        }
-        else if (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileEmpty(adjacentTiles.rightUnder))
-        {
-            selectedEntityActionPreset = EntityActionPreset.MoveDownRight;
-        }
-
-        // you cannot walk into walls, set preset to none/idle
-        if ((selectedEntityActionPreset == EntityActionPreset.MoveDown && GridTileTypeHelper.IsTileSolid(adjacentTiles.under)) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveUp && GridTileTypeHelper.IsTileSolid(adjacentTiles.above)) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileSolid(adjacentTiles.left)) ||
-            (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileSolid(adjacentTiles.right)))
-        {
-            selectedEntityActionPreset = EntityActionPreset.None;
-        }
-
-        if (!canFly)
-        {
-            // if no floor underneath entity and not on ladder, force it to fall down
-            // this step has to happen last so it can overwrite other moves
-            // you can stand on other entities
-            if (GridTileTypeHelper.IsTileEmpty(adjacentTiles.under) 
-                && !GridTileTypeHelper.IsTileClimbable(adjacentTiles.current)
-                && !entityManager.TryGetEntityAtGridPosition(gridPosition + Vector2Int.down, out GridEntity entity))
-            {
-                selectedEntityActionPreset = EntityActionPreset.MoveDown;
-                moveIsForced = true;
-            }
-
-        }
+        BeforeEvaluation(turnNumber);               
 
         int executionTurn = turnNumber;
         if (!moveIsForced)
@@ -128,6 +82,58 @@ public abstract class GridEntity : MonoBehaviour
                 return TurnAction.CreateAttackAction(this, turnNumber, true, true, basePriority);
 
         }
+    }
+
+    public EntityActionPreset SetActionPreset(EntityActionPreset actionPreset)
+    {
+        moveIsForced = false;
+        adjacentTiles = new AdjacentTiles(GameGrid.instance, gridPosition);
+        selectedEntityActionPreset = actionPreset;
+
+        // walk up stairs
+        // this does not account for having a wall directly above a stair... surely that will never happen
+        if (selectedEntityActionPreset == EntityActionPreset.MoveLeft && adjacentTiles.left == GridTileGeometry.StairLeft)
+        {
+            selectedEntityActionPreset = EntityActionPreset.MoveUpLeft;
+        }
+        else if (selectedEntityActionPreset == EntityActionPreset.MoveRight && adjacentTiles.right == GridTileGeometry.StairRight)
+        {
+            selectedEntityActionPreset = EntityActionPreset.MoveUpRight;
+        }
+        else if (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileEmpty(adjacentTiles.leftUnder))
+        {
+            selectedEntityActionPreset = EntityActionPreset.MoveDownLeft;
+        }
+        else if (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileEmpty(adjacentTiles.rightUnder))
+        {
+            selectedEntityActionPreset = EntityActionPreset.MoveDownRight;
+        }
+
+        // you cannot walk into walls, set preset to none/idle
+        if ((selectedEntityActionPreset == EntityActionPreset.MoveDown && GridTileTypeHelper.IsTileSolid(adjacentTiles.under)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveUp && GridTileTypeHelper.IsTileSolid(adjacentTiles.above)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveLeft && GridTileTypeHelper.IsTileSolid(adjacentTiles.left)) ||
+            (selectedEntityActionPreset == EntityActionPreset.MoveRight && GridTileTypeHelper.IsTileSolid(adjacentTiles.right)))
+        {
+            selectedEntityActionPreset = EntityActionPreset.None;
+        }
+
+        if (!canFly)
+        {
+            // if no floor underneath entity and not on ladder, force it to fall down
+            // this step has to happen last so it can overwrite other moves
+            // you can stand on other entities
+            if (GridTileTypeHelper.IsTileEmpty(adjacentTiles.under)
+                && !GridTileTypeHelper.IsTileClimbable(adjacentTiles.current)
+                && !entityManager.TryGetEntityAtGridPosition(gridPosition + Vector2Int.down, out GridEntity entity))
+            {
+                selectedEntityActionPreset = EntityActionPreset.MoveDown;
+                moveIsForced = true;
+            }
+
+        }
+
+        return selectedEntityActionPreset;
     }
 
     protected virtual TurnAction EvaluateNonPresetAction(int turnNumber)
