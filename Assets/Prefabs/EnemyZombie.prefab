@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 1660496723
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1022199726, guid: 9629f504c233d1f49957ce763d9f5b4d, type: 3}
-  m_Color: {r: 0.56944686, g: 1, b: 0.45098042, a: 1}
+  m_Sprite: {fileID: 8823313409647413609, guid: ea40648a63513aa4598dabaae069de42, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,7 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityManager: {fileID: 0}
-  selectedEntityActionPreset: 0
   gridPosition: {x: -5, y: 5}
   weapon: {fileID: 11400000, guid: f3b678a58da774d4b8fd59fb05f98dfd, type: 2}
   health: 2

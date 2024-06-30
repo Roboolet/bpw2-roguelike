@@ -88,7 +88,7 @@ public class EntityManager : MonoBehaviour
         // execute actions for this turn in order, remove if cooldown is over
         for (int index = activeTurnActions.Count - 1; index >= 0; index--)
         {
-            TurnAction action = activeTurnActions[index];
+            TurnAction action = activeTurnActions[index];            
 
             // execute movement
             if (action.enableMove)

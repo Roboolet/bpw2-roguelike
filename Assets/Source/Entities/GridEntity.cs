@@ -20,6 +20,15 @@ public abstract class GridEntity : MonoBehaviour
 
     protected AdjacentTiles adjacentTiles;
     protected int cooldownTurns;
+    SpriteRenderer spriteRenderer;
+
+    private void Start()
+    {
+        if(TryGetComponent(out SpriteRenderer r))
+        {
+            spriteRenderer = r;
+        }
+    }
 
     /// <summary>
     /// Run behaviour here
@@ -54,27 +63,35 @@ public abstract class GridEntity : MonoBehaviour
             case EntityActionPreset.MoveUp:
                 return TurnAction.CreateMoveAction(this, Vector2Int.up, executionTurn, basePriority);
             case EntityActionPreset.MoveLeft:
+                spriteRenderer.flipX = true;
                 return TurnAction.CreateMoveAction(this, Vector2Int.left, executionTurn, basePriority);
             case EntityActionPreset.MoveDown:
                 return TurnAction.CreateMoveAction(this, Vector2Int.down, executionTurn, basePriority);
             case EntityActionPreset.MoveRight:
+                spriteRenderer.flipX = false;
                 return TurnAction.CreateMoveAction(this, Vector2Int.right, executionTurn, basePriority);
 
             // diagonal movement
             case EntityActionPreset.MoveUpLeft:
+                spriteRenderer.flipX = true;
                 return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.up, executionTurn, basePriority);
             case EntityActionPreset.MoveUpRight:
+                spriteRenderer.flipX = false;
                 return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.up, executionTurn, basePriority);
             case EntityActionPreset.MoveDownLeft:
+                spriteRenderer.flipX = true;
                 return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.down, executionTurn, basePriority);
             case EntityActionPreset.MoveDownRight:
+                spriteRenderer.flipX = false;
                 return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.down, executionTurn, basePriority);
 
             // attacks
             case EntityActionPreset.AttackRight:
+                spriteRenderer.flipX = false;
                 cooldownTurns = weapon.onUseActionCooldown;
                 return TurnAction.CreateAttackAction(this, turnNumber, false, false, basePriority);
             case EntityActionPreset.AttackLeft:
+                spriteRenderer.flipX = true;
                 cooldownTurns = weapon.onUseActionCooldown;
                 return TurnAction.CreateAttackAction(this, turnNumber, true, false, basePriority);
             case EntityActionPreset.AttackUp:
