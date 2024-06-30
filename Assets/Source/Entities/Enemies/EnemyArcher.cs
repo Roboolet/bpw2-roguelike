@@ -10,6 +10,9 @@ public class EnemyArcher : GridEntity
     {
         Vector2Int playerPos = entityManager.playerEntityReference.gridPosition;
 
+        // out of range
+        if (playerPos.y > gridPosition.y + 2 || playerPos.y < gridPosition.y - 2) return;
+
         if (playerPos.x < gridPosition.x)
         {
             if (playerPos.x >= gridPosition.x - shootRange)
