@@ -10,15 +10,18 @@ public class PlayerEntity : GridEntity
     [Header("Player-specific settings")]
     [SerializeField] EventSystem eventSystem;
     [HideInInspector] public AimDirection pointerDirection;
+    SpriteRenderer playerSprite;
 
     [Header("Move preview")]
     [SerializeField] SpriteRenderer preview;
     [SerializeField] Sprite prevAttackHorizontal, prevAttackVertical, prevMoveCardinal, prevMoveDiagonal;
+    [SerializeField] float prevDist, prevDistDiag;
     public bool attackMode { get; set; }
 
     private void Awake()
     {
         mainCamera = Camera.main;
+        playerSprite = GetComponent<SpriteRenderer>();
     }
 
     // used for the input
@@ -106,8 +109,6 @@ public class PlayerEntity : GridEntity
         }
 
         // update the preview
-        const float dist = 0.7f;
-        const float distDiag = 0.5f;
         switch (validatedPreset)
         {
             // moves
@@ -116,65 +117,73 @@ public class PlayerEntity : GridEntity
                 break;
             case EntityActionPreset.MoveUp:
                 preview.sprite = prevMoveCardinal;
-                preview.transform.localPosition = new Vector2(0, dist);
+                preview.transform.localPosition = new Vector2(0, prevDist);
                 preview.transform.eulerAngles = new Vector3(0, 0, 90);
                 break;
             case EntityActionPreset.MoveRight:
                 preview.sprite = prevMoveCardinal;
-                preview.transform.localPosition = new Vector2(dist, 0);
+                preview.transform.localPosition = new Vector2(prevDist, 0);
                 preview.transform.eulerAngles = new Vector3(0, 0, 0);
+                playerSprite.flipX = false;
                 break;
             case EntityActionPreset.MoveDown:
                 preview.sprite = prevMoveCardinal;
-                preview.transform.localPosition = new Vector2(0, -dist);
+                preview.transform.localPosition = new Vector2(0, -prevDist);
                 preview.transform.eulerAngles = new Vector3(0, 0, -90);
                 break;
             case EntityActionPreset.MoveLeft:
                 preview.sprite = prevMoveCardinal;
-                preview.transform.localPosition = new Vector2(-dist, 0);
+                preview.transform.localPosition = new Vector2(-prevDist, 0);
                 preview.transform.eulerAngles = new Vector3(0, 0, 180);
+                playerSprite.flipX = true;
                 break;
             case EntityActionPreset.MoveDownLeft:
                 preview.sprite = prevMoveDiagonal;
-                preview.transform.localPosition = new Vector2(-distDiag, -distDiag);
+                preview.transform.localPosition = new Vector2(-prevDistDiag, -prevDistDiag);
                 preview.transform.eulerAngles = new Vector3(0, 0, -90);
+                playerSprite.flipX = true;
                 break;
             case EntityActionPreset.MoveDownRight:
                 preview.sprite = prevMoveDiagonal;
-                preview.transform.localPosition = new Vector2(distDiag, -distDiag);
+                preview.transform.localPosition = new Vector2(prevDistDiag, -prevDistDiag);
                 preview.transform.eulerAngles = new Vector3(0, 0, 0);
+                playerSprite.flipX = false;
                 break;
             case EntityActionPreset.MoveUpLeft:
                 preview.sprite = prevMoveDiagonal;
-                preview.transform.localPosition = new Vector2(-distDiag, distDiag);
+                preview.transform.localPosition = new Vector2(-prevDistDiag, prevDistDiag);
                 preview.transform.eulerAngles = new Vector3(0, 0, 180);
+                playerSprite.flipX = true;
                 break;
             case EntityActionPreset.MoveUpRight:
                 preview.sprite = prevMoveDiagonal;
-                preview.transform.localPosition = new Vector2(distDiag, distDiag);
+                preview.transform.localPosition = new Vector2(prevDistDiag, prevDistDiag);
                 preview.transform.eulerAngles = new Vector3(0, 0, 90);
+                playerSprite.flipX = false;
                 break;
 
             // attacks
             case EntityActionPreset.AttackUp:
                 preview.sprite = prevAttackVertical;
-                preview.transform.localPosition = new Vector2(0, dist);
+                preview.transform.localPosition = new Vector2(0, prevDist);
                 preview.transform.eulerAngles = new Vector3(0, 0, 0);
                 break;
             case EntityActionPreset.AttackDown:
                 preview.sprite = prevAttackVertical;
-                preview.transform.localPosition = new Vector2(0, -dist);
+                preview.transform.localPosition = new Vector2(0, -prevDist);
                 preview.transform.eulerAngles = new Vector3(180, 0, 0);
                 break;
             case EntityActionPreset.AttackLeft:
                 preview.sprite = prevAttackHorizontal;
-                preview.transform.localPosition = new Vector2(-dist, 0);
+                preview.transform.localPosition = new Vector2(-prevDist, 0);
                 preview.transform.eulerAngles = new Vector3(0, 180, 0);
+                playerSprite.flipX = true;
                 break;
             case EntityActionPreset.AttackRight:
                 preview.sprite = prevAttackHorizontal;
-                preview.transform.localPosition = new Vector2(dist, 0);
+                preview.transform.localPosition = new Vector2(prevDist, 0);
                 preview.transform.eulerAngles = new Vector3(0, 0, 0);
+                playerSprite.flipX = false;
                 break;
         }
     }

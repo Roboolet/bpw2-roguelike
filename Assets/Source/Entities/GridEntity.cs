@@ -36,7 +36,10 @@ public abstract class GridEntity : MonoBehaviour
             cooldownTurns--;
             return TurnAction.CreateIdleAction(this);
         }
-        BeforeEvaluation(turnNumber);               
+
+        BeforeEvaluation(turnNumber);  
+        // this is to keep some enemy logic from breaking
+        SetActionPreset(selectedEntityActionPreset);
 
         int executionTurn = turnNumber;
         if (!moveIsForced)
