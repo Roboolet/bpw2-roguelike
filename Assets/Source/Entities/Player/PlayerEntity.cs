@@ -11,6 +11,8 @@ public class PlayerEntity : GridEntity
     [SerializeField] EventSystem eventSystem;
     [HideInInspector] public AimDirection pointerDirection;
     SpriteRenderer playerSprite;
+    [SerializeField] Image[] hearts;
+    [SerializeField] Sprite fullHeart, emptyHeart;
 
     [Header("Move preview")]
     [SerializeField] SpriteRenderer preview;
@@ -197,5 +199,22 @@ public class PlayerEntity : GridEntity
     public enum AimDirection
     {
         None, Right, Left, Up, Down
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if(i <= health)
+            {
+                hearts[i].sprite = fullHeart;
+            }
+            else
+            {
+                hearts[i].sprite = emptyHeart;
+            }
+        }
     }
 }

@@ -108,6 +108,9 @@ MonoBehaviour:
   basePriority: 999
   eventSystem: {fileID: 0}
   pointerDirection: 0
+  hearts: []
+  fullHeart: {fileID: -2442155200462945238, guid: 572327a24aef445488178e9274e8c42a, type: 3}
+  emptyHeart: {fileID: 7215974811941639230, guid: fc3ea389eaea79f4484f0cb9c571d352, type: 3}
   preview: {fileID: 1936488428115105057}
   prevAttackHorizontal: {fileID: -4297709174436496640, guid: dbcb37d36c718d04ea9166da5a304a21, type: 3}
   prevAttackVertical: {fileID: -1105810441080277472, guid: f00de5fcc252bcb4d98ad912b54ea549, type: 3}

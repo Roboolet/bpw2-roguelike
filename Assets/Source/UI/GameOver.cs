@@ -27,6 +27,7 @@ public class GameOver : MonoBehaviour
 
     public void MainMenuButton()
     {
+        GameStateManager.instance.OnGameStateChange -= OnGameStateChange;
         GameStateManager.instance.ChangeGameState(GameState.MainMenu);
     }
 }
