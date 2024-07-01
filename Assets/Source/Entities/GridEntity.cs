@@ -9,6 +9,7 @@ public abstract class GridEntity : MonoBehaviour
     EntityActionPreset selectedEntityActionPreset;
     bool moveIsForced = false;
     public Vector2Int gridPosition;
+    [SerializeField] protected ParticleSystem hitParticles;
     [Header("Equipment")]
     public Weapon weapon;    
 
@@ -22,6 +23,7 @@ public abstract class GridEntity : MonoBehaviour
     protected int cooldownTurns;
     protected SpriteRenderer spriteRenderer;
     protected EntityAudioPlayer audioPlayer;
+    
 
     private void Start()
     {
@@ -196,6 +198,7 @@ public abstract class GridEntity : MonoBehaviour
     public virtual void TakeDamage(int damage)
     {
         if (audioPlayer != null) audioPlayer.PlayHurtSound();
+        if (hitParticles != null) hitParticles.Play();
         health -= damage;
         if (health < 0) OnDeath();
     }
