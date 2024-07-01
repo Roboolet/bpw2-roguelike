@@ -22,6 +22,8 @@ public class PlayerEntity : GridEntity
 
     bool attackModeLastFrame;
 
+    float lastMoveTime;
+
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -58,6 +60,12 @@ public class PlayerEntity : GridEntity
             if (Input.GetButtonDown("Fire1"))
             {
                 entityManager.EndTurn();
+                lastMoveTime = Time.time;
+            }
+            else if (Input.GetButton("Fire1") && lastMoveTime + 0.3f < Time.time)
+            {
+                entityManager.EndTurn();
+                lastMoveTime = Time.time;
             }
         }
         else
