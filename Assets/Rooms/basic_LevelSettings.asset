@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 30
   height: 200
-  numberOfRooms: 8
+  numberOfRooms: 9
   tileset: {fileID: 11400000, guid: 8df158a3ac3065c439e3bae3f6f99fb6, type: 2}
   firstRoom: {fileID: 349054850098870169, guid: db49837c5940eab42b5f067970e944a4, type: 3}
   lastRoom: {fileID: -5458647443986875764, guid: a7a7397d55f12a842a12b865faecad72, type: 3}
@@ -23,3 +23,5 @@ MonoBehaviour:
   - {fileID: 2708545356820798215, guid: c1a7419d5c9517a46b9f998c35a732c0, type: 3}
   - {fileID: -3703639681261723745, guid: d6ab6fa72e477aa47814ea3daa8dad45, type: 3}
   - {fileID: -3714528017188170550, guid: 34c3665ed6e828a42a91e83f68f1b8f6, type: 3}
+  - {fileID: 4332694597236920962, guid: 7f15c3de042a6214aaa16a5ada1ab58b, type: 3}
+  - {fileID: -8195714073837303517, guid: b33adeba6854947438598332580432b2, type: 3}
