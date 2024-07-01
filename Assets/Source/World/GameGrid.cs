@@ -123,7 +123,10 @@ public class GameGrid : MonoBehaviour
         {
             Vector2Int pos = new Vector2Int(i % levelSettings.width, levelSettings.height - Mathf.FloorToInt(i / levelSettings.width));
             GridTileSpawns spawn = levelGenerator.Get(pos.x, pos.y).spawn;
-            entities.Add(new EntitySpawnData(pos, spawn));
+            if (spawn != GridTileSpawns.Empty)
+            {
+                entities.Add(new EntitySpawnData(pos, spawn));
+            }
         }
         return entities.ToArray();
     }

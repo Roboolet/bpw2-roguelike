@@ -173,7 +173,7 @@ public enum GridTileGeometry : int
 
 public enum GridTileSpawns : int
 {
-    Empty, ChestSpawnPoint=24, GroundEnemySpawnPoint=25, FlyingEnemySpawnPoint=26, ArcherEnemySpawnPoint = 27, WinScreenEntity = 39
+    Empty, ChestSpawnPoint=25, GroundEnemySpawnPoint=26, FlyingEnemySpawnPoint=27, ArcherEnemySpawnPoint = 28, WinScreenEntity = 40
 }
 
 public enum GridTileBackground : int

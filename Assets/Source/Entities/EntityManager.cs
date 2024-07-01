@@ -47,14 +47,21 @@ public class EntityManager : MonoBehaviour
 
         // spawn enemies
         EntitySpawnData[] spawns = gameGrid.GetAllEntitySpawns();
+        Debug.Log("Spawning " + spawns.Length.ToString() + " enemies");
         for(int i =0; i < spawns.Length; i++)
         {
             EntitySpawnData data = spawns[i];
+            Debug.Log("Spawning: " + data.type);
             if (spawnPrefabs.TryGetValue(data.type, out GameObject value))
             {
-                GridEntity entity = Instantiate(value).GetComponent<GridEntity>();
+                GridEntity entity = Instantiate(value, transform).GetComponent<GridEntity>();
                 entity.gridPosition = data.pos;
+                entity.entityManager = this;
                 entities.Add(entity);
+            }
+            else
+            {
+                Debug.LogWarning("Could not find entity prefab for spawn type " + data.type);
             }
         }
 

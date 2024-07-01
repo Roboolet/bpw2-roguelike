@@ -29,7 +29,7 @@ public class LevelGenerator
             { 
                 SpawnRoom(settings.firstRoom); 
             }
-            else if (i == settings.numberOfRooms - 1) 
+            else if (i >= settings.numberOfRooms - 1) 
             { 
                 SpawnRoom(settings.lastRoom); 
             }
