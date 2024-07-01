@@ -10,6 +10,8 @@ public abstract class GridEntity : MonoBehaviour
     bool moveIsForced = false;
     public Vector2Int gridPosition;
     [SerializeField] protected ParticleSystem hitParticles;
+    [SerializeField] protected EntityAudioPlayer audioPlayer;
+    [SerializeField] Transform dontDestroyOnDeath;
     [Header("Equipment")]
     public Weapon weapon;    
 
@@ -22,7 +24,6 @@ public abstract class GridEntity : MonoBehaviour
     protected AdjacentTiles adjacentTiles;
     protected int cooldownTurns;
     protected SpriteRenderer spriteRenderer;
-    protected EntityAudioPlayer audioPlayer;
     
 
     private void Start()
@@ -30,11 +31,6 @@ public abstract class GridEntity : MonoBehaviour
         if(TryGetComponent(out SpriteRenderer r))
         {
             spriteRenderer = r;
-        }
-
-        if (TryGetComponent(out EntityAudioPlayer a))
-        {
-            audioPlayer = a;
         }
     }
 
@@ -191,6 +187,7 @@ public abstract class GridEntity : MonoBehaviour
 
     public virtual void OnDeath()
     {
+        if(dontDestroyOnDeath != null) dontDestroyOnDeath.parent = null;
         entityManager.KillEntity(this);
         // drop loot
     }
