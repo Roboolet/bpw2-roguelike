@@ -20,6 +20,8 @@ public class PlayerEntity : GridEntity
     [SerializeField] float prevDist, prevDistDiag;
     public bool attackMode { get; set; }
 
+    bool attackModeLastFrame;
+
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -29,6 +31,9 @@ public class PlayerEntity : GridEntity
     // used for the input
     private void Update()
     {
+        // play sound
+        if(attackModeLastFrame != attackMode) { audioPlayer.PlayCustomSound(0); }
+
         // only execute when not hovering over buttons
         if (!eventSystem.IsPointerOverGameObject())
         {
@@ -59,6 +64,8 @@ public class PlayerEntity : GridEntity
         {
             pointerDirection = AimDirection.None;
         }
+
+        attackModeLastFrame = attackMode;
     }
 
     public void UpdateActionPreset(AimDirection direction)

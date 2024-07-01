@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8633751865603221083}
   - component: {fileID: 5308733436969842831}
   - component: {fileID: 7169951876186139819}
+  - component: {fileID: 1538838180367297194}
+  - component: {fileID: 7807947924916857704}
   m_Layer: 0
   m_Name: EnemyZombie
   m_TagString: Untagged
@@ -104,3 +106,131 @@ MonoBehaviour:
   beforeMoveDelay: 1
   canFly: 0
   basePriority: 1
+--- !u!82 &1538838180367297194
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6130273181316418151}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &7807947924916857704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6130273181316418151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0658b4d040f78742b454afa0f1960d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 1538838180367297194}
+  stepSounds:
+  - {fileID: 8300000, guid: 129f434b13e43cc49bd1178412f0cbd9, type: 3}
+  - {fileID: 8300000, guid: 1fd73f0b8cdfb1a4c9074f8df1fb8d23, type: 3}
+  - {fileID: 8300000, guid: abd6176315d272d43b0e4ea5d481b2c5, type: 3}
+  - {fileID: 8300000, guid: 6934a3d3ed50e4d4ca51253592e15038, type: 3}
+  - {fileID: 8300000, guid: 86d9e547d2eee17438e60a3629dd0127, type: 3}
+  - {fileID: 8300000, guid: bef41837dcab71f45b62e85e76ea000f, type: 3}
+  - {fileID: 8300000, guid: 6a8309dfc8548654e8859ba6ac919de7, type: 3}
+  - {fileID: 8300000, guid: 4e38756ce7a30e2499c8c1c401dc161d, type: 3}
+  - {fileID: 8300000, guid: 4d2b949677d77914fb9246078672d34b, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: b3e9172f72f4a7d44962e12b3c87b656, type: 3}
+  - {fileID: 8300000, guid: 23df5b9f16de7ce4eb045824e973d90a, type: 3}
+  - {fileID: 8300000, guid: 5d072c491e91eff4e9f5406a99688ca4, type: 3}
+  - {fileID: 8300000, guid: 8f04c57ce39d16748995588df676b63a, type: 3}
+  hurtSounds:
+  - {fileID: 8300000, guid: c86cb5ab3333cc04aa9f078f52a163f0, type: 3}
+  customSounds:
+  - {fileID: 8300000, guid: eca3feed85248684d8c8128b77defa52, type: 3}

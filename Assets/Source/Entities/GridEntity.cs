@@ -20,13 +20,19 @@ public abstract class GridEntity : MonoBehaviour
 
     protected AdjacentTiles adjacentTiles;
     protected int cooldownTurns;
-    SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
+    protected EntityAudioPlayer audioPlayer;
 
     private void Start()
     {
         if(TryGetComponent(out SpriteRenderer r))
         {
             spriteRenderer = r;
+        }
+
+        if (TryGetComponent(out EntityAudioPlayer a))
+        {
+            audioPlayer = a;
         }
     }
 
@@ -61,27 +67,40 @@ public abstract class GridEntity : MonoBehaviour
             default: return EvaluateNonPresetAction(turnNumber);
 
             case EntityActionPreset.MoveUp:
+                if (audioPlayer != null) audioPlayer.PlayFootstepSound();
                 return TurnAction.CreateMoveAction(this, Vector2Int.up, executionTurn, basePriority);
+
             case EntityActionPreset.MoveLeft:
+                if (audioPlayer != null) audioPlayer.PlayFootstepSound();
                 spriteRenderer.flipX = true;
                 return TurnAction.CreateMoveAction(this, Vector2Int.left, executionTurn, basePriority);
+
             case EntityActionPreset.MoveDown:
                 return TurnAction.CreateMoveAction(this, Vector2Int.down, executionTurn, basePriority);
+
             case EntityActionPreset.MoveRight:
+                if(audioPlayer != null) audioPlayer.PlayFootstepSound();
                 spriteRenderer.flipX = false;
                 return TurnAction.CreateMoveAction(this, Vector2Int.right, executionTurn, basePriority);
 
             // diagonal movement
             case EntityActionPreset.MoveUpLeft:
+                if (audioPlayer != null) audioPlayer.PlayFootstepSound();
                 spriteRenderer.flipX = true;
                 return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.up, executionTurn, basePriority);
+
             case EntityActionPreset.MoveUpRight:
+                if (audioPlayer != null) audioPlayer.PlayFootstepSound();
                 spriteRenderer.flipX = false;
                 return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.up, executionTurn, basePriority);
+
             case EntityActionPreset.MoveDownLeft:
+                if (audioPlayer != null) audioPlayer.PlayFootstepSound();
                 spriteRenderer.flipX = true;
                 return TurnAction.CreateMoveAction(this, Vector2Int.left + Vector2Int.down, executionTurn, basePriority);
+
             case EntityActionPreset.MoveDownRight:
+                if (audioPlayer != null) audioPlayer.PlayFootstepSound();
                 spriteRenderer.flipX = false;
                 return TurnAction.CreateMoveAction(this, Vector2Int.right + Vector2Int.down, executionTurn, basePriority);
 
@@ -89,16 +108,23 @@ public abstract class GridEntity : MonoBehaviour
             case EntityActionPreset.AttackRight:
                 spriteRenderer.flipX = false;
                 cooldownTurns = weapon.onUseActionCooldown;
+                if (audioPlayer != null) audioPlayer.PlayAttackSound();
                 return TurnAction.CreateAttackAction(this, turnNumber, false, false, basePriority);
+
             case EntityActionPreset.AttackLeft:
                 spriteRenderer.flipX = true;
                 cooldownTurns = weapon.onUseActionCooldown;
+                if (audioPlayer != null) audioPlayer.PlayAttackSound();
                 return TurnAction.CreateAttackAction(this, turnNumber, true, false, basePriority);
+
             case EntityActionPreset.AttackUp:
                 cooldownTurns = weapon.onUseActionCooldown;
+                if (audioPlayer != null) audioPlayer.PlayAttackSound();
                 return TurnAction.CreateAttackAction(this, turnNumber, false, true, basePriority);
+
             case EntityActionPreset.AttackDown:
                 cooldownTurns = weapon.onUseActionCooldown;
+                if (audioPlayer != null) audioPlayer.PlayAttackSound();
                 return TurnAction.CreateAttackAction(this, turnNumber, true, true, basePriority);
 
         }
@@ -169,6 +195,7 @@ public abstract class GridEntity : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
+        if (audioPlayer != null) audioPlayer.PlayHurtSound();
         health -= damage;
         if (health < 0) OnDeath();
     }
